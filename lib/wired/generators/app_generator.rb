@@ -16,12 +16,19 @@ module Wired
 
     def wired_customization
       invoke :remove_files_we_dont_need
+      invoke :customize_gemfile
       invoke :outro
     end
 
     def remove_files_we_dont_need
       build :remove_public_index
       build :remove_rails_logo_image
+    end
+
+    def customize_gemfile
+      build :replace_gemfile
+      build :set_ruby_to_version_being_used
+      bundle_command 'install --binstubs=bin/stubs'
     end
 
     def outro
