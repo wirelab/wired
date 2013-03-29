@@ -18,5 +18,36 @@ module Wired
       inject_into_file 'Gemfile', "\n\nruby '#{RUBY_VERSION}'",
         after: /source 'https:\/\/rubygems.org'/
     end
+
+    def setup_database_config 
+      template 'database.yml.erb', 'config/database.yml', :force => true
+    end
+
+    def create_database
+      bundle_command 'exec rake db:create'
+    end
+
+    def create_partials_directory
+      empty_directory 'app/views/application'
+    end
+
+    def create_shared_flashes
+      copy_file '_flashes.html.erb',
+        'app/views/application/_flashes.html.erb'
+    end
+
+    def create_application_layout
+      template 'layout.html.erb.erb',
+        'app/views/layouts/application.html.erb',
+        :force => true
+    end
+
+    def configure_time_zone
+      config = <<-RUBY
+    config.time_zone = 'Amsterdam'
+
+      RUBY
+      inject_into_class 'config/application.rb', 'Application', config
+    end
   end
 end
