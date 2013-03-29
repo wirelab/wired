@@ -3,8 +3,6 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
-    class_option :skip_test_unit, :type => :boolean, :aliases => '-T', :default => true,
-      :desc => 'Skip Test::Unit files'
 
     def finish_template
       invoke :wired_customization
@@ -17,14 +15,16 @@ module Wired
       invoke :create_wired_views
       invoke :setup_database
       invoke :configure_app
-      #invoke :setup_stylesheets
-      #invoke :copy_miscellaneous_files
-      #invoke :customize_error_pages
-      #invoke :remove_routes_comment_lines
-      #invoke :setup_git
-      #invoke :create_heroku_apps
-      #invoke :create_github_repo
+      invoke :customize_error_pages
+      invoke :remove_routes_comment_lines
+      invoke :application_setup
+      invoke :setup_git
+      invoke :create_heroku_apps
       invoke :outro
+    end
+
+    def application_setup
+      #additional invokes based on type of app we're generating
     end
 
     def remove_files_we_dont_need
@@ -57,6 +57,33 @@ module Wired
       build :add_email_validator
     end
 
+    def copy_miscellaneous_files
+      say 'Copying miscellaneous support files'
+      build :copy_miscellaneous_files
+    end
+
+    def customize_error_pages
+      say 'Customizing the 500/404/422 pages'
+      build :customize_error_pages
+    end
+
+    def remove_routes_comment_lines
+      build :remove_routes_comment_lines
+    end
+
+    def setup_git
+      say 'Setting up git'
+      build :gitignore_files
+      build :setup_git
+    end
+
+    def create_heroku_apps
+      if options[:heroku]
+        say 'Creating Heroku apps'
+        build :create_heroku_apps
+      end
+    end
+
     def outro
       say 'Wired up!'
     end
@@ -69,10 +96,6 @@ module Wired
 
     def get_builder_class
       Wired::AppBuilder
-    end
-
-    def using_active_record?
-      !options[:skip_active_record]
     end
   end
 end
