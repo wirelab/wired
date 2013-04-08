@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+if ARGV[0].length > 20
+  raise "Name can't be longer than 20 characters. (#{ARGV[0]} is #{ARGV[0].length})"
+end
+
 require File.expand_path(File.join('..', 'lib', 'wired', 'generators', 'app_generator'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'actions'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'app_builder'), File.dirname(__FILE__))
