@@ -26,7 +26,8 @@ module Wired
     end
 
     def application_setup
-      puts "app setup?"
+      build :powder_link
+
       choices = ["facebook", "teaser"]
       type = ask "Applicationtype? (#{choices.join ', '})"
       if choices.include? type
@@ -48,6 +49,9 @@ module Wired
     def facebook_setup
       if @@type == "facebook"
         build :update_readme_for_facebook
+        build :add_facebook_routes
+        build :add_facebook_controllers
+        build :add_safari_cookie_fix
       end
     end
 

@@ -104,8 +104,12 @@ module Wired
       run "git push --all"
     end
 
+    def powder_link
+      run 'powder link'
+    end
+
     def update_readme_for_facebook 
-      append_file "README.md", "* FB_APP_ID"
+      append_file "README.md", "* FB_APP_ID\n* FB_PAGE_NAME"
       facebook_readme =<<-FACEBOOK
 # Facebook Apps
 * [Production](https://developers.facebook.com/apps/FB_APP_ID) _FB_APP_ID_
@@ -117,6 +121,43 @@ module Wired
 
       FACEBOOK
       inject_into_file "README.md", facebook_readme, :before => "# Variables\n"
+    end
+
+    def add_facebook_routes
+      facebook_routes =<<-ROUTES
+  root :to => 'tab#home'
+  match "fangate" => "tab#fangate", as: 'fangate'
+ 
+  #safari cookie fix
+  get 'cookie' => 'application#cookie', as: 'cookie'
+
+  #admin
+  get 'admin/export' => 'admin#export'
+      ROUTES
+      inject_into_file "config/routes.rb", facebook_routes, :before => "end"
+    end
+
+    def add_facebook_controllers
+      copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
+      copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
+    end
+
+    def add_safari_cookie_fix
+      facebook_cookie_fix =<<-COOKIE_FIX
+  before_filter :safari_cookie_fix
+  
+  def cookie
+    #safari third party cookie fix
+  end
+
+  private
+
+  def safari_cookie_fix
+    cookies[:safari_cookie_fix] = "cookie" #safari third party cookie fix
+  end
+      COOKIE_FIX
+      inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
+      copy_file 'facebook/safari-cookie-fix.js.coffee', 'app/assets/javascripts/safari-cookie-fix.js.coffee'
     end
 
     def create_heroku_apps
