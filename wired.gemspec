@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Wired::VERSION 
   s.date        = Date.today.strftime('%Y-%m-%d') 
   s.summary     = 'Wirelab Generator'
-  s.description = 'A Wirelab application generator'
+  s.description = 'The Wirelab application generator'
   s.authors     = ['Wirelab Creative']
   s.email       = 'bart@wirelab.nl'
   s.homepage    = 'https://github.com/Wirelab/wired'
