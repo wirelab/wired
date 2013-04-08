@@ -104,6 +104,12 @@ module Wired
       run "git push --all"
     end
 
+    def create_facebook_apps
+      %w(dev staging acceptance production).each do |env|
+
+      end
+    end
+
     def create_heroku_apps
       %w(staging acceptance production).each do |env|
         run "heroku create #{app_name}-#{env} --remote=#{env}"

@@ -3,6 +3,7 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
+    @@type = ""
 
     def finish_template
       invoke :wired_customization
@@ -21,10 +22,39 @@ module Wired
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
+      invoke :todo
     end
 
     def application_setup
-      #additional invokes based on type of app we're generating
+      puts "app setup?"
+      choices = ["facebook", "teaser"]
+      type = ask "Applicationtype? (#{choices.join ', '})"
+      if choices.include? type
+        @@type = type
+        case type
+        when "facebook"
+          say "Setting up a Facebook application"
+          invoke :facebook_setup
+        when "teaser"
+          say "Setting up a teaser with email registration"
+          #invoke :teaser_setup
+        end
+      else
+        say "Applicationtype should be one of: #{choices.join ', '}"
+        invoke :application_setup
+      end
+    end
+
+    def facebook_setup
+      if @@type == "facebook"
+        build :create_facebook_apps
+      end
+    end
+
+    def teaser_setup
+      if @@type == "teaser"
+        say "There's no teaser setup yet"
+      end
     end
 
     def remove_files_we_dont_need
@@ -73,18 +103,29 @@ module Wired
     def setup_git
       say 'Setting up git'
       build :gitignore_files
-      build :setup_git
+      #build :setup_git
     end
 
     def create_heroku_apps
       if options[:heroku]
         say 'Creating Heroku apps'
-        build :create_heroku_apps
+        #build :create_heroku_apps
       end
     end
 
     def outro
       say "     _  _  _  ___   ___  _    ___  ___ \n    | || || || - > | __>| |  / - \\| - >\n    |    || ||   \\ | __>| |_ | | || _ \\\n    |_/\\_||_||_|\\_\\|___>|___||_|_||___/\n"
+    end
+
+    def todo
+      say "\n ------TODO------"
+      case @@type
+      when "facebook"
+        say "* Create Facebook apps on https://developers.facebook.com"
+        say "* Update FB_APP_ID env variables locally, on Heroku and in the readme"
+      when "teaser"
+        say "* Build entire app"
+      end
     end
 
     def run_bundle
