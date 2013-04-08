@@ -51,6 +51,7 @@ module Wired
         build :update_readme_for_facebook
         build :add_facebook_routes
         build :add_facebook_controllers
+        build :create_facebook_views
         build :add_safari_cookie_fix
       end
     end

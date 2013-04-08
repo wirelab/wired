@@ -142,6 +142,13 @@ module Wired
       copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
     end
 
+    def create_facebook_views
+      empty_directory 'app/views/tab'
+      %w(fangate home).each do |page|
+        File.open("app/views/tab/#{page}.html.erb", 'w') { |file| file.write(page) }
+      end
+    end
+
     def add_safari_cookie_fix
       facebook_cookie_fix =<<-COOKIE_FIX
   before_filter :safari_cookie_fix
