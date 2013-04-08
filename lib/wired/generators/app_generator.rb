@@ -103,13 +103,13 @@ module Wired
     def setup_git
       say 'Setting up git'
       build :gitignore_files
-      #build :setup_git
+      build :setup_git
     end
 
     def create_heroku_apps
       if options[:heroku]
         say 'Creating Heroku apps'
-        #build :create_heroku_apps
+        build :create_heroku_apps
       end
     end
 
