@@ -107,10 +107,8 @@ module Wired
     end
 
     def create_heroku_apps
-      if options[:heroku]
-        say 'Creating Heroku apps'
-        build :create_heroku_apps
-      end
+      say 'Creating Heroku apps'
+      build :create_heroku_apps
     end
 
     def outro
