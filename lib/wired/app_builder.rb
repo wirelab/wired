@@ -74,7 +74,7 @@ module Wired
     end
 
     def gitignore_files
-      concat_file 'suspenders_gitignore', '.gitignore'
+      concat_file 'wired_gitignore', '.gitignore'
       [
         'app/models',
         'app/assets/images',
@@ -104,10 +104,19 @@ module Wired
       run "git push --all"
     end
 
-    def create_facebook_apps
-      %w(dev staging acceptance production).each do |env|
+    def update_readme_for_facebook 
+      append_file "README.md", "* FB_APP_ID"
+      facebook_readme =<<-FACEBOOK
+# Facebook Apps
+* [Production](https://developers.facebook.com/apps/FB_APP_ID) _FB_APP_ID_
+* [Acceptance](https://developers.facebook.com/apps/) _FB_APP_ID_
+* [Staging](https://developers.facebook.com/apps/FB_APP_ID) _FB_APP_ID_
+* [Development](https://developers.facebook.com/apps/FB_APP_ID) _FB_APP_ID_
 
-      end
+***
+
+      FACEBOOK
+      inject_into_file "README.md", facebook_readme, :before => "# Variables\n"
     end
 
     def create_heroku_apps

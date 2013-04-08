@@ -47,7 +47,7 @@ module Wired
 
     def facebook_setup
       if @@type == "facebook"
-        build :create_facebook_apps
+        build :update_readme_for_facebook
       end
     end
 
