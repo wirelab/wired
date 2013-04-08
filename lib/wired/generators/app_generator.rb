@@ -58,7 +58,6 @@ module Wired
     end
 
     def copy_miscellaneous_files
-      say 'Copying miscellaneous support files'
       build :copy_miscellaneous_files
     end
 
@@ -85,7 +84,7 @@ module Wired
     end
 
     def outro
-      say 'Wired up!'
+      say "     _  _  _  ___   ___  _    ___  ___ \n    | || || || - > | __>| |  / - \\| - >\n    |    || ||   \\ | __>| |_ | | || _ \\\n    |_/\\_||_||_|\\_\\|___>|___||_|_||___/\n"
     end
 
     def run_bundle
