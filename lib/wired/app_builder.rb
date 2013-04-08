@@ -108,6 +108,7 @@ module Wired
       %w(staging acceptance production).each do |env|
         run "heroku create #{app_name}-#{env} --remote=#{env}"
         run "heroku sharing:add algemeen@wirelab.nl --remote=#{env}"
+        run "heroku sharing:transfer algemeen@wirelab.nl --remote=#{env}"
       end
     end
   end
