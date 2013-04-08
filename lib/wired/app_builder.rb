@@ -104,8 +104,9 @@ module Wired
       run "git push --all"
     end
 
-    def powder_link
+    def powder_setup
       run 'powder link'
+      copy_file 'facebook/powenv', '.powenv'
     end
 
     def update_readme_for_facebook 

@@ -26,7 +26,7 @@ module Wired
     end
 
     def application_setup
-      build :powder_link
+      build :powder_setup
 
       choices = ["facebook", "teaser"]
       type = ask "Applicationtype? (#{choices.join ', '})"
