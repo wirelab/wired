@@ -153,6 +153,7 @@ module Wired
     def add_safari_cookie_fix
       facebook_cookie_fix =<<-COOKIE_FIX
   before_filter :safari_cookie_fix
+  before_filter :add_global_javascript_variables  
   
   def cookie
     #safari third party cookie fix
@@ -162,6 +163,10 @@ module Wired
 
   def safari_cookie_fix
     cookies[:safari_cookie_fix] = "cookie" #safari third party cookie fix
+  end
+
+  def add_global_javascript_variables
+    Gon.global.variable = ENV["FB_APP_ID"]
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
