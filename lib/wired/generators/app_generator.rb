@@ -19,6 +19,7 @@ module Wired
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
+      invoke :run_migration
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -53,6 +54,7 @@ module Wired
         build :add_facebook_controllers
         build :create_facebook_views
         build :add_safari_cookie_fix
+        build :generate_user_model
       end
     end
 
@@ -84,6 +86,15 @@ module Wired
       say 'Setting up database'
       build :setup_database_config
       build :create_database
+    end
+
+    def generate_user_model
+      say 'Generating User model with a name, email and fbid'
+      run 'rails g model User name, email, fbid'
+    end
+
+    def run_migrations
+      bundle_command 'exec rake db:migrate'
     end
 
     def configure_app
