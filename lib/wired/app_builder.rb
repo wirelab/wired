@@ -33,6 +33,14 @@ module Wired
       bundle_command 'exec rake db:create'
     end
 
+    def run_migrations
+      bundle_command 'exec rake db:migrate'
+    end
+
+    def generate_user_model
+      run 'rails g model User name email fbid'
+    end
+
     def create_partials_directory
       empty_directory 'app/views/application'
     end
