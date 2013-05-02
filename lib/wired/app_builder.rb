@@ -171,7 +171,7 @@ module Wired
   private
 
   def current_user
-    @current_user ||= User.by_fbid session[:fbid]
+    @current_user ||= User.find_by_fbid session[:fbid]
   end
 
   def safari_cookie_fix
