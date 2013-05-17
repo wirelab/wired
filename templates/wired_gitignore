@@ -1,3 +1,4 @@
 .env
 .powenv
 public/system
+bin/
