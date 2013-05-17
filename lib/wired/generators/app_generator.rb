@@ -65,6 +65,7 @@ module Wired
     end
 
     def remove_files_we_dont_need
+      build :remove_doc_folder
       build :remove_public_index
       build :remove_rails_logo_image
     end

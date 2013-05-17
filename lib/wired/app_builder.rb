@@ -4,6 +4,9 @@ module Wired
 
     def readme
       template 'README.md.erb', 'README.md'
+    end
+
+    def remove_doc_folder
       remove_dir 'doc'
     end
 
