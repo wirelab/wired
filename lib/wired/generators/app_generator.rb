@@ -111,6 +111,7 @@ module Wired
       say 'Setting up git'
       build :gitignore_files
       build :setup_git
+      build :deploy_github
     end
 
     def create_heroku_apps

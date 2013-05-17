@@ -105,10 +105,13 @@ module Wired
 
     def setup_git 
       run 'git init'
-      run "hub create -p wirelab/#{app_name}"
       run "git add ."
       run "git commit -m 'initial commit'"
       run "git checkout -b develop"
+    end
+    
+    def deploy_github
+      run "hub create -p wirelab/#{app_name}"
       run "git push --all"
     end
 
