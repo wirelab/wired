@@ -18,9 +18,10 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+  s.license = 'MIT'
 
   s.rdoc_options = ["--charset=UTF-8"]
-  s.extra_rdoc_files = %w[README.md]
+  s.extra_rdoc_files = %w[README.md LICENSE]
 
   s.add_dependency 'rails', '3.2.13'
   s.add_dependency 'bundler', '>= 1.1'
