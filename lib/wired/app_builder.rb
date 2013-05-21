@@ -206,8 +206,6 @@ module Wired
         else
           run "heroku create #{app_name}-#{env} --remote=#{env} --region eu"
         end
-        run "heroku sharing:add algemeen@wirelab.nl --remote=#{env}"
-        run "heroku sharing:transfer algemeen@wirelab.nl --remote=#{env}"
       end
     end
   end
