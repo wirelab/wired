@@ -50,6 +50,7 @@ module Wired
       if @@type == "facebook"
         build :update_readme_for_facebook
         build :add_facebook_routes
+        build :add_facebook_channel_file
         build :add_facebook_controllers
         build :create_facebook_views
         build :add_safari_cookie_fix

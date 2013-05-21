@@ -144,7 +144,7 @@ module Wired
   match "fangate" => "tab#fangate", as: 'fangate'
  
   #safari cookie fix
-  get 'cookie' => 'application#cookie', as: 'cookie'
+  get 'cookie' => 'sessions#cookie', as: 'cookie'
 
   #admin
   get 'admin/export' => 'admin#export'
@@ -157,6 +157,10 @@ module Wired
       copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
     end
 
+    def add_facebook_channel_file
+      copy_file 'facebook/channel.html', 'public/channel.html'
+    end
+
     def create_facebook_views
       empty_directory 'app/views/tab'
       %w(fangate home).each do |page|
@@ -165,6 +169,8 @@ module Wired
     end
 
     def add_safari_cookie_fix
+      copy_file 'facebook/sessions_controller.rb', 'app/controllers/sessions_controller.rb'
+      copy_file 'facebook/cookie.html.erb', 'app/views/sessions/cookie.html.erb'
       facebook_cookie_fix =<<-COOKIE_FIX
   helper_method :current_user
   before_filter :safari_cookie_fix
