@@ -175,12 +175,21 @@ module Wired
   helper_method :current_user
   before_filter :safari_cookie_fix
   before_filter :add_global_javascript_variables  
-  
+  before_filter :set_origin
+  before_filter :set_p3p
+
   def cookie
     #safari third party cookie fix
   end
 
   private
+  def set_p3p  
+    headers['P3P'] = 'CP="ALL DSP COR CURa ADMa DEVa OUR IND COM NAV"'  
+  end 
+  
+  def set_origin
+    response.headers["Access-Control-Allow-Origin: facebook.com"]
+  end
 
   def current_user
     @current_user ||= User.find_by_fbid session[:fbid]
