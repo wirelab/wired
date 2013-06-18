@@ -120,7 +120,7 @@ module Wired
 
     def powder_setup
       run 'powder link'
-      copy_file 'facebook/powenv', '.powenv'
+      copy_file 'facebook/env', '.env'
     end
 
     def update_readme_for_facebook 

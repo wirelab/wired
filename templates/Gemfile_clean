@@ -25,3 +25,6 @@ gem 'mobylette'
 gem 'simple_form'
 gem 'flutie'
 gem 'gon'
+
+#Use .env instead of .powenv for powder.
+gem 'dotenv-rails', :groups => [:development, :test]
