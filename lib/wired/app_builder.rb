@@ -206,6 +206,12 @@ module Wired
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
       copy_file 'facebook/safari-cookie-fix.js.coffee', 'app/assets/javascripts/safari-cookie-fix.js.coffee'
+      copy_file 'facebook/facebook.js.coffee', 'app/assets/javascripts/facebook.js.coffee'
+    end
+
+    def add_javascripts_to_manifest
+      inject_into_file 'app/assets/javascripts/application.js', "//= require facebook\n", :before => '//= require_tree .'
+      inject_into_file 'app/assets/javascripts/application.js', "//= require safari_cookie_fix\n", :before => '//= require_tree .'
     end
 
     def create_heroku_apps
