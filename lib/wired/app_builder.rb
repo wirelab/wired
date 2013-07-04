@@ -143,7 +143,6 @@ module Wired
   root :to => 'tab#home'
   match "fangate" => "tab#fangate", as: 'fangate'
  
-  #safari cookie fix
   get 'cookie' => 'sessions#cookie', as: 'cookie'
 
   #admin
@@ -168,18 +167,18 @@ module Wired
       end
     end
 
-    def add_safari_cookie_fix
+    def add_cookie_fix
       copy_file 'facebook/sessions_controller.rb', 'app/controllers/sessions_controller.rb'
       copy_file 'facebook/cookie.html.erb', 'app/views/sessions/cookie.html.erb'
       facebook_cookie_fix =<<-COOKIE_FIX
   helper_method :current_user
-  before_filter :safari_cookie_fix
+  before_filter :cookie_fix
   before_filter :add_global_javascript_variables  
   before_filter :set_origin
   before_filter :set_p3p
 
   def cookie
-    #safari third party cookie fix
+    # third party cookie fix
   end
 
   private
@@ -195,8 +194,8 @@ module Wired
     @current_user ||= User.find_by_fbid session[:fbid]
   end
 
-  def safari_cookie_fix
-    cookies[:safari_cookie_fix] = "cookie" #safari third party cookie fix
+  def cookie_fix
+    cookies[:cookie_fix] = "cookie" #third party cookie fix
   end
 
   def add_global_javascript_variables
@@ -205,13 +204,13 @@ module Wired
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
-      copy_file 'facebook/safari-cookie-fix.js.coffee', 'app/assets/javascripts/safari-cookie-fix.js.coffee'
+      copy_file 'facebook/cookie-fix.js.coffee', 'app/assets/javascripts/cookie-fix.js.coffee'
       copy_file 'facebook/facebook.js.coffee', 'app/assets/javascripts/facebook.js.coffee'
     end
 
     def add_javascripts_to_manifest
       inject_into_file 'app/assets/javascripts/application.js', "//= require facebook\n", :before => '//= require_tree .'
-      inject_into_file 'app/assets/javascripts/application.js', "//= require safari_cookie_fix\n", :before => '//= require_tree .'
+      inject_into_file 'app/assets/javascripts/application.js', "//= require cookie_fix\n", :before => '//= require_tree .'
     end
 
     def create_heroku_apps

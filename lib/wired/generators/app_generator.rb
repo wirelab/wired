@@ -53,7 +53,7 @@ module Wired
         build :add_facebook_channel_file
         build :add_facebook_controllers
         build :create_facebook_views
-        build :add_safari_cookie_fix
+        build :add_cookie_fix
         build :add_javascripts_to_manifest
         build :generate_user_model
         build :run_migrations
