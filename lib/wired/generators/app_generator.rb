@@ -83,7 +83,6 @@ module Wired
       say 'Creating views'
       build :create_partials_directory
       build :create_shared_flashes
-      build :create_google_analytics
       build :create_application_layout
     end
 
