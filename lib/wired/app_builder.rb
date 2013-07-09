@@ -141,7 +141,6 @@ module Wired
     def add_facebook_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
-  post "fangate" => "tab#fangate", as: 'fangate'
   get "fangate" => "tab#fangate", as: 'fangate'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
