@@ -95,6 +95,7 @@ module Wired
     def configure_app
       say 'Configuring app'
       build :configure_time_zone
+      build :set_asset_sync
       build :add_email_validator
     end
 

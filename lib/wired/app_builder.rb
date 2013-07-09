@@ -67,6 +67,14 @@ module Wired
       inject_into_class 'config/application.rb', 'Application', config
     end
 
+    def set_asset_sync
+      config = <<-RUBY
+  config.action_controller.asset_host = ENV["CUSTOM_ASSET_HOST"]
+      RUBY
+      inject_into_class 'config/application.rb', 'Application', config
+      inject_into_file 'config/environments/production.rb', config, :after => "config.action_controller.asset_host = \"http://assets.example.com\"\n"
+    end
+
     def customize_error_pages
       meta_tags =<<-EOS
   <meta charset='utf-8' />
