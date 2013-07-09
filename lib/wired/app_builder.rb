@@ -53,6 +53,11 @@ module Wired
         'app/views/application/_flashes.html.erb'
     end
 
+    def create_google_analytics
+      copy_file '_analytics.html.erb',
+        'app/views/application/_analytics.html.erb'
+    end
+
     def create_application_layout
       template 'layout.html.erb.erb',
         'app/views/layouts/application.html.erb',
