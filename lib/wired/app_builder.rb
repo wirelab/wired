@@ -102,7 +102,7 @@ module Wired
         'spec/support/mixins',
         'spec/support/shared_examples'
       ].each do |dir|
-        empty_directory_with_gitkeep dir
+       empty_directory_with_keep_file dir 
       end
     end
 
@@ -141,8 +141,8 @@ module Wired
     def add_facebook_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
-  match "fangate" => "tab#fangate", as: 'fangate'
- 
+  post "fangate" => "tab#fangate", as: 'fangate'
+
   #safari cookie fix
   get 'cookie' => 'sessions#cookie', as: 'cookie'
 
