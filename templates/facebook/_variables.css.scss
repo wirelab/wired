@@ -19,11 +19,7 @@ $default_font: Arial, Helvetica, sans-serif;
 
 //MIXINS
 $experimental-support-for-svg: true; //ads SVG instead of gradient
-@import "compass/css3/border-radius";
-@import "compass/css3/background-clip";
-@import "compass/css3/box-shadow";
-@import "compass/css3/images";
-@import "compass/css3/opacity";
+
 
 @mixin helvetica_light{
   font-family: $helvetica_light;
