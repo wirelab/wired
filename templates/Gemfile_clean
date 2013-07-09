@@ -6,11 +6,9 @@ gem 'pg'
 gem 'jquery-rails', '2.2.1'
 gem 'thin'
 
-group :assets do
-  gem 'coffee-rails'
-  gem 'sass-rails'
-  gem 'uglifier'
-end
+gem 'coffee-rails'
+gem 'sass-rails'
+gem 'uglifier'
 
 group :development do
   gem 'foreman'

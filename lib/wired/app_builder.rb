@@ -41,7 +41,7 @@ module Wired
     end
 
     def generate_user_model
-      run 'rails g model User name email fbid'
+      run 'rails g model User name:string email:string fbid:string'
     end
 
     def create_partials_directory
