@@ -7,6 +7,7 @@
   <%%= include_gon %>
   <%%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%%= csrf_meta_tags %>
+  <%%= render partial: "analytics" if Rails.env.production? %>
 </head>
 <body class="<%%= body_class %>">
   <div id="fb-root"></div>
