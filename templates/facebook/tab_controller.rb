@@ -4,15 +4,14 @@ class TabController < ApplicationController
   after_action :allow_facebook_iframe
 
   def home 
+    @liked = false
     if params[:signed_request]
       set_fbid_session_if_authenticated_before_with_facebook
-      redirect_to :fangate unless liked?
+      @show_fangate = !liked?
     else
+      @show_fangate = false
       redirect_to "http://www.facebook.com/#{ENV['FB_PAGE_NAME']}/app_#{ENV['FB_APP_ID']}" unless is_mobile_view?
     end
-  end
-
-  def fangate
   end
 
   private

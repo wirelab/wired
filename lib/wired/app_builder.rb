@@ -146,7 +146,6 @@ module Wired
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
   post '/' => 'tab#home'
-  get "fangate" => "tab#fangate", as: 'fangate'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
 
@@ -173,9 +172,10 @@ module Wired
 
     def create_facebook_views
       empty_directory 'app/views/tab'
-      %w(fangate home).each do |page|
-        File.open("app/views/tab/#{page}.html.erb", 'w') { |file| file.write(page) }
-      end
+      home_page =<<-HOME
+Home pagina, show fangate: <%= @show_fangate %>
+      HOME
+      File.open("app/views/tab/home.html.erb", 'w') { |file| file.write(home_page) }
     end
 
     def add_cookie_fix
