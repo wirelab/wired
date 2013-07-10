@@ -18,6 +18,10 @@ module Wired
       remove_file 'app/assets/images/rails.png'
     end
 
+    def remove_turbo_links
+      replace_in_file "app/assets/javascripts/application.js", /\/\/= require turbolinks\n/, ''
+    end
+
     def replace_gemfile
       remove_file 'Gemfile'
       copy_file 'Gemfile_clean', 'Gemfile'
@@ -149,7 +153,8 @@ module Wired
     def add_facebook_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
-  post "fangate" => "tab#fangate", as: 'fangate'
+  post '/' => 'tab#home'
+  get "fangate" => "tab#fangate", as: 'fangate'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
 
@@ -218,7 +223,7 @@ module Wired
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
-      copy_file 'facebook/cookie-fix.js.coffee', 'app/assets/javascripts/cookie-fix.js.coffee'
+      copy_file 'facebook/cookie_fix.js.coffee', 'app/assets/javascripts/cookie_fix.js.coffee'
       copy_file 'facebook/facebook.js.coffee', 'app/assets/javascripts/facebook.js.coffee'
     end
 
