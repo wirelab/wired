@@ -18,6 +18,10 @@ module Wired
       remove_file 'app/assets/images/rails.png'
     end
 
+    def remove_turbo_links
+      replace_in_file "assets/javascripts/application.js", /\/\/= require turbolinks\n/, ''
+    end
+
     def replace_gemfile
       remove_file 'Gemfile'
       copy_file 'Gemfile_clean', 'Gemfile'
@@ -141,6 +145,7 @@ module Wired
     def add_facebook_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
+  post '/' => 'tab#home'
   get "fangate" => "tab#fangate", as: 'fangate'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'

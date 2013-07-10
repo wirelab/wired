@@ -1,5 +1,6 @@
 class TabController < ApplicationController
   include Mobylette::RespondToMobileRequests
+  protect_from_forgery except: [:home]
 
   def home 
     if params[:signed_request]

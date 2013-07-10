@@ -71,6 +71,7 @@ module Wired
       build :remove_doc_folder
       build :remove_public_index
       build :remove_rails_logo_image
+      build :remove_turbo_links
     end
 
     def customize_gemfile
