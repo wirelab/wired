@@ -1,6 +1,7 @@
 class TabController < ApplicationController
   include Mobylette::RespondToMobileRequests
   protect_from_forgery except: [:home]
+  after_action :allow_facebook_iframe
 
   def home 
     if params[:signed_request]
@@ -45,5 +46,9 @@ class TabController < ApplicationController
   def decode_data(signed_request)
     encoded_sig, payload = signed_request.split('.')
     data = base64_url_decode(payload)
+  end
+
+  def allow_facebook_iframe
+    response.headers['X-Frame-Options'] = "ALLOW-FROM https://www.facebook.com"
   end
 end
