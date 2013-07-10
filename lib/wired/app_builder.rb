@@ -206,7 +206,7 @@ module Wired
 
   def add_global_javascript_variables
     Gon.global.facebook = { 'app_id' => ENV["FB_APP_ID"] }
-    Gon.global.current_user = current_user
+    Gon.global.current_user = current_user.fbid
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
