@@ -215,7 +215,7 @@ module Wired
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
-      copy_file 'facebook/cookie-fix.js.coffee', 'app/assets/javascripts/cookie-fix.js.coffee'
+      copy_file 'facebook/cookie_fix.js.coffee', 'app/assets/javascripts/cookie_fix.js.coffee'
       copy_file 'facebook/facebook.js.coffee', 'app/assets/javascripts/facebook.js.coffee'
     end
 
