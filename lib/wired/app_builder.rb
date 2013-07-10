@@ -19,7 +19,7 @@ module Wired
     end
 
     def remove_turbo_links
-      replace_in_file "assets/javascripts/application.js", /\/\/= require turbolinks\n/, ''
+      replace_in_file "app/assets/javascripts/application.js", /\/\/= require turbolinks\n/, ''
     end
 
     def replace_gemfile
