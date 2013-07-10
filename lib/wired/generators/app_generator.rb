@@ -3,11 +3,11 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
-    class_option 'skip-heroku', type: :boolean, aliases: '-SH',
-      default: false, desc: 'Skips the creation of the Heroku apps'
+    class_option 'skip-heroku', type: :boolean, default: false,
+      desc: 'Skips the creation of the Heroku apps'
 
-    class_option 'skip-github', type: :boolean, aliases: '-SG',
-      default: false, desc: 'Skips the creation of a Github repository'
+    class_option 'skip-github', type: :boolean, default: false,
+      desc: 'Skips the creation of a Github repository'
 
     @@type = ""
 

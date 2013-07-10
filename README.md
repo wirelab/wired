@@ -19,7 +19,7 @@ Usage
 
 Params additional to the default rails generator params are:
 
-* -SH (--skip-heroku) _Skips the creation of the Heroku apps_
-* -SG (--skip-github) _Skips the creation of a Github repository_
+* --skip-heroku _Skips the creation of the Heroku apps_
+* --skip-github _Skips the creation of a Github repository_
 
 For a complete list of options check `wired --help`.
