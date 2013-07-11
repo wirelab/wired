@@ -1,16 +1,17 @@
 class TabController < ApplicationController
   include Mobylette::RespondToMobileRequests
+  protect_from_forgery except: [:home]
+  after_action :allow_facebook_iframe
 
   def home 
+    @liked = false
     if params[:signed_request]
       set_fbid_session_if_authenticated_before_with_facebook
-      redirect_to :fangate unless liked?
+      @show_fangate = !liked?
     else
+      @show_fangate = false
       redirect_to "http://www.facebook.com/#{ENV['FB_PAGE_NAME']}/app_#{ENV['FB_APP_ID']}" unless is_mobile_view?
     end
-  end
-
-  def fangate
   end
 
   private
@@ -44,5 +45,9 @@ class TabController < ApplicationController
   def decode_data(signed_request)
     encoded_sig, payload = signed_request.split('.')
     data = base64_url_decode(payload)
+  end
+
+  def allow_facebook_iframe
+    response.headers['X-Frame-Options'] = "ALLOW-FROM https://www.facebook.com"
   end
 end
