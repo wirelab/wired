@@ -236,6 +236,9 @@ Home pagina, show fangate: <%= @show_fangate %>
       %w(staging acceptance production).each do |env|
         if env == 'production'
           run "heroku create #{app_name} --remote=#{env} --region eu"
+          %w(papertrail pgbackups newrelic memcachier).each do |addon|
+            run "heroku addons:add #{addon} --remote=#{env}"
+          end
         else
           run "heroku create #{app_name}-#{env} --remote=#{env} --region eu"
         end

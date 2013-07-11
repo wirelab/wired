@@ -18,6 +18,12 @@ group :development do
   gem 'quiet_assets'
 end
 
+group :production do
+  gem 'memcachier'
+  gem 'dalli'
+  gem 'newrelic_rpm'
+end
+
 gem 'asset_sync'
 gem 'mobylette'
 gem 'simple_form'
