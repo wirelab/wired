@@ -18,6 +18,10 @@ module Wired
       remove_file 'app/assets/images/rails.png'
     end
 
+    def remove_turbo_links
+      replace_in_file "app/assets/javascripts/application.js", /\/\/= require turbolinks\n/, ''
+    end
+
     def replace_gemfile
       remove_file 'Gemfile'
       copy_file 'Gemfile_clean', 'Gemfile'
@@ -41,7 +45,7 @@ module Wired
     end
 
     def generate_user_model
-      run 'rails g model User name email fbid'
+      run 'rails g model User name:string email:string fbid:string'
     end
 
     def create_partials_directory
@@ -65,6 +69,14 @@ module Wired
 
       RUBY
       inject_into_class 'config/application.rb', 'Application', config
+    end
+
+    def set_asset_sync
+      config = <<-RUBY
+  config.action_controller.asset_host = ENV["CUSTOM_ASSET_HOST"]
+      RUBY
+      inject_into_class 'config/application.rb', 'Application', config
+      inject_into_file 'config/environments/production.rb', config, :after => "config.action_controller.asset_host = \"http://assets.example.com\"\n"
     end
 
     def customize_error_pages
@@ -102,7 +114,7 @@ module Wired
         'spec/support/mixins',
         'spec/support/shared_examples'
       ].each do |dir|
-        empty_directory_with_gitkeep dir
+       empty_directory_with_keep_file dir 
       end
     end
 
@@ -114,7 +126,15 @@ module Wired
     end
     
     def deploy_github
-      run "hub create -p wirelab/#{app_name}"
+      github_result = run "hub create -p wirelab/#{app_name}"
+      if github_result
+        puts "Github repo wirelab/#{app_name} created."
+      else
+        puts "Github creation wirelab/#{app_name} failed."
+        puts "Wired generation halted due to error."
+        puts "You might want to remove the created Rails app and retry."
+        exit
+      end
       run "git push --all"
     end
 
@@ -141,8 +161,8 @@ module Wired
     def add_facebook_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
-  match "fangate" => "tab#fangate", as: 'fangate'
- 
+  post '/' => 'tab#home'
+
   get 'cookie' => 'sessions#cookie', as: 'cookie'
 
   #admin
@@ -168,9 +188,10 @@ module Wired
 
     def create_facebook_views
       empty_directory 'app/views/tab'
-      %w(fangate home).each do |page|
-        File.open("app/views/tab/#{page}.html.erb", 'w') { |file| file.write(page) }
-      end
+      home_page =<<-HOME
+Home pagina, show fangate: <%= @show_fangate %>
+      HOME
+      File.open("app/views/tab/home.html.erb", 'w') { |file| file.write(home_page) }
     end
 
     def add_cookie_fix
@@ -206,11 +227,11 @@ module Wired
 
   def add_global_javascript_variables
     Gon.global.facebook = { 'app_id' => ENV["FB_APP_ID"] }
-    Gon.global.current_user = current_user
+    Gon.global.current_user = current_user.fbid if current_user.present?
   end
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
-      copy_file 'facebook/cookie-fix.js.coffee', 'app/assets/javascripts/cookie-fix.js.coffee'
+      copy_file 'facebook/cookie_fix.js.coffee', 'app/assets/javascripts/cookie_fix.js.coffee'
       copy_file 'facebook/facebook.js.coffee', 'app/assets/javascripts/facebook.js.coffee'
     end
 
@@ -221,10 +242,21 @@ module Wired
 
     def create_heroku_apps
       %w(staging acceptance production).each do |env|
-        if env == 'production'
-          run "heroku create #{app_name} --remote=#{env} --region eu"
+        heroku_name = (env == "production") ? app_name : "#{app_name}-#{env}"
+        heroku_result = run "heroku create #{heroku_name} --remote=#{env} --region eu"
+        
+        if heroku_result
+          puts "Heroku app #{heroku_name} created."
         else
-          run "heroku create #{app_name}-#{env} --remote=#{env} --region eu"
+          puts "Heroku app #{heroku_name} failed."
+          puts "Wired generation halted due to error."
+          puts "You might want to remove the GitHub repo and previously created heroku apps and retry."
+          exit
+        end
+        if env == 'production'
+          %w(papertrail pgbackups newrelic memcachier).each do |addon|
+            run "heroku addons:add #{addon} --remote=#{env}"
+          end
         end
       end
     end

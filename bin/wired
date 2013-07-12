@@ -1,14 +1,9 @@
 #!/usr/bin/env ruby
-
-if ARGV.empty?
-  raise "Provide an app name"
-else
-  if ARGV[0].length < 3
-    raise "Name needs to be longer than 3 characters. (#{ARGV[0]} is #{ARGV[0].length})"
-  end
-
-  if ARGV[0].length > 20
-    raise "Name can't be longer than 20 characters. (#{ARGV[0]} is #{ARGV[0].length})"
+#
+if ARGV.any? 
+  if ARGV[0].length < 3 || ARGV[0].length > 20
+    puts "Name needs to be between 3 and 20 characters. (#{ARGV[0]} is #{ARGV[0].length})"
+    exit
   end
 end
 
