@@ -7,6 +7,7 @@ if ARGV.any?
   end
 end
 
+require File.expand_path(File.join('..', 'lib', 'wired', 'helpers', 'facebook_helper'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'generators', 'app_generator'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'actions'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'app_builder'), File.dirname(__FILE__))

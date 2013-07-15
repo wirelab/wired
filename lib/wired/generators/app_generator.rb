@@ -3,13 +3,12 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
+    include Wired::FacebookHelper
     class_option 'skip-heroku', type: :boolean, default: false,
       desc: 'Skips the creation of the Heroku apps'
 
     class_option 'skip-github', type: :boolean, default: false,
       desc: 'Skips the creation of a Github repository'
-
-    @@type = ""
 
     def finish_template
       invoke :wired_customization
@@ -41,7 +40,7 @@ module Wired
         case type
         when "facebook"
           say "Setting up a Facebook application"
-          invoke :facebook_setup
+          facebook_setup
         when "teaser"
           say "Setting up a teaser with email registration"
           #invoke :teaser_setup
@@ -49,27 +48,6 @@ module Wired
       else
         say "Applicationtype should be one of: #{choices.join ', '}"
         invoke :application_setup
-      end
-    end
-
-    def facebook_setup
-      if @@type == "facebook"
-        build :update_readme_for_facebook
-        build :add_facebook_routes
-        build :add_facebook_channel_file
-        build :add_facebook_controllers
-        build :add_facebook_stylesheets
-        build :create_facebook_views
-        build :add_cookie_fix
-        build :add_javascripts_to_manifest
-        build :generate_user_model
-        build :run_migrations
-      end
-    end
-
-    def teaser_setup
-      if @@type == "teaser"
-        say "There's no teaser setup yet"
       end
     end
 
