@@ -3,7 +3,6 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
-    include Wired::FacebookHelper
     class_option 'skip-heroku', type: :boolean, default: false,
       desc: 'Skips the creation of the Heroku apps'
 
@@ -13,6 +12,12 @@ module Wired
     def finish_template
       invoke :wired_customization
       super
+    end
+
+    def app_name_clean
+      clean = app_name.parameterize
+      clean = "wl_#{clean}" if clean.length < 3
+      clean = clean[0..19] if clean.length > 20
     end
 
     def wired_customization
@@ -32,23 +37,6 @@ module Wired
 
     def application_setup
       build :powder_setup
-
-      choices = ["facebook", "teaser"]
-      type = ask "Applicationtype? (#{choices.join ', '})"
-      if choices.include? type
-        @@type = type
-        case type
-        when "facebook"
-          say "Setting up a Facebook application"
-          facebook_setup
-        when "teaser"
-          say "Setting up a teaser with email registration"
-          #invoke :teaser_setup
-        end
-      else
-        say "Applicationtype should be one of: #{choices.join ', '}"
-        invoke :application_setup
-      end
     end
 
     def remove_files_we_dont_need
@@ -117,13 +105,6 @@ module Wired
 
     def todo
       say "\n ------TODO------"
-      case @@type
-      when "facebook"
-        say "* Create Facebook apps on https://developers.facebook.com"
-        say "* Update FB_APP_ID env variables locally, on Heroku and in the readme"
-      when "teaser"
-        say "* Build entire app"
-      end
     end
 
     def run_bundle
