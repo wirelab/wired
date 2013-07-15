@@ -114,7 +114,7 @@ module Wired
     protected
 
     def get_builder_class
-      Wired::AppBuilder
+      AppBuilder
     end
   end
 end

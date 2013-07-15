@@ -19,5 +19,11 @@ module Wired
       say "* Create Facebook apps on https://developers.facebook.com"
       say "* Update FB_APP_ID env variables locally, on Heroku and in the readme"
     end
+
+    protected
+
+    def get_builder_class
+      FacebookBuilder
+    end
   end
 end
