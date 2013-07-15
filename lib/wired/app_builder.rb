@@ -126,11 +126,11 @@ module Wired
     end
     
     def deploy_github
-      github_result = run "hub create -p wirelab/#{app_name}"
+      github_result = run "hub create -p wirelab/#{app_name_clean}"
       if github_result
-        puts "Github repo wirelab/#{app_name} created."
+        puts "Github repo wirelab/#{app_name_clean} created."
       else
-        puts "Github creation wirelab/#{app_name} failed."
+        puts "Github creation wirelab/#{app_name_clean} failed."
         puts "Wired generation halted due to error."
         puts "You might want to remove the created Rails app and retry."
         exit
@@ -242,7 +242,7 @@ Home pagina, show fangate: <%= @show_fangate %>
 
     def create_heroku_apps
       %w(staging acceptance production).each do |env|
-        heroku_name = (env == "production") ? app_name : "#{app_name}-#{env}"
+        heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-#{env}"
         heroku_result = run "heroku create #{heroku_name} --remote=#{env} --region eu"
         
         if heroku_result
