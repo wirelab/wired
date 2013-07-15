@@ -132,7 +132,6 @@ module Wired
 
     def powder_setup
       run 'powder link'
-      copy_file 'facebook/env', '.env'
     end
 
     def create_heroku_apps

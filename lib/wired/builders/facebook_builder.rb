@@ -104,5 +104,10 @@ Home pagina, show fangate: <%= @show_fangate %>
     def run_migrations
       bundle_command 'exec rake db:migrate'
     end
+
+    def powder_setup
+      super
+      copy_file 'facebook/env', '.env'
+    end
   end
 end
