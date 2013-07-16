@@ -15,10 +15,11 @@ Installation
 
 Usage
 ---
-`wired app_name`
+`wired APP_NAME --generator GENERATOR_NAME`
 
 Params additional to the default rails generator params are:
 
+* --generator GENERATOR _uses the specified generator, can be: [facebook]_
 * --skip-heroku _Skips the creation of the Heroku apps_
 * --skip-github _Skips the creation of a Github repository_
 
