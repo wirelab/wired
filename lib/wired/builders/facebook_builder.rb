@@ -21,9 +21,6 @@ module Wired
   post '/' => 'tab#home'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
-
-  #admin
-  get 'admin/export' => 'admin#export'
       ROUTES
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
