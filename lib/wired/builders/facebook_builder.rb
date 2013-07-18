@@ -27,7 +27,6 @@ module Wired
 
     def add_controllers
       copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
-      copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
     end
     
     def add_stylesheets
