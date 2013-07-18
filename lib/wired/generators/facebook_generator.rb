@@ -2,16 +2,17 @@ module Wired
   class FacebookGenerator < AppGenerator
     def application_setup
       super
-      build :update_readme_for_facebook
-      build :add_facebook_routes
-      build :add_facebook_channel_file
-      build :add_facebook_controllers
-      build :add_facebook_stylesheets
-      build :create_facebook_views
+      build :update_readme
+      build :add_routes
+      build :add_channel_file
+      build :add_controllers
+      build :add_stylesheets
+      build :create_views
       build :add_cookie_fix
       build :add_javascripts_to_manifest
       build :generate_user_model
       build :run_migrations
+      build :create_initializers
     end
 
     def todo

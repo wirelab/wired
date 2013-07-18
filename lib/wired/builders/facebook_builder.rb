@@ -1,6 +1,6 @@
 module Wired
   class FacebookBuilder < AppBuilder
-    def update_readme_for_facebook 
+    def update_readme
       append_file "README.md", "* FB_APP_ID\n* FB_PAGE_NAME"
       facebook_readme =<<-FACEBOOK
 # Facebook Apps
@@ -15,7 +15,7 @@ module Wired
       inject_into_file "README.md", facebook_readme, :before => "# Variables\n"
     end
 
-    def add_facebook_routes
+    def add_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
   post '/' => 'tab#home'
@@ -25,22 +25,22 @@ module Wired
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
 
-    def add_facebook_controllers
+    def add_controllers
       copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
       copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
     end
     
-    def add_facebook_stylesheets
+    def add_stylesheets
       say 'Copy stylesheets'
       copy_file 'facebook/reset.css.scss', 'app/assets/stylesheets/resets.css.scss'
       copy_file 'facebook/_variables.css.scss', 'app/assets/stylesheets/_variables.css.scss'
     end
 
-    def add_facebook_channel_file
+    def add_channel_file
       copy_file 'facebook/channel.html', 'public/channel.html'
     end
 
-    def create_facebook_views
+    def create_views
       empty_directory 'app/views/tab'
       home_page =<<-HOME
 Home pagina, show fangate: <%= @show_fangate %>
@@ -105,6 +105,10 @@ Home pagina, show fangate: <%= @show_fangate %>
     def powder_setup
       super
       copy_file 'facebook/env', '.env'
+    end
+
+    def create_initializers 
+      copy_file 'facebook/default_headers.rb', 'config/initializers/default_headers.rb'
     end
   end
 end
