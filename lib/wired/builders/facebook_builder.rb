@@ -93,8 +93,21 @@ Home pagina, show fangate: <%= @show_fangate %>
       inject_into_file 'app/assets/javascripts/application.js', "//= require cookie_fix\n", :before => '//= require_tree .'
     end
 
-    def generate_user_model
-      run 'rails g model User name:string email:string fbid:string'
+    def generate_user
+      user_token_method =<<-USER_TOKEN_METHOD
+  def self.create_or_update_by_access_token(access_token)
+    @graph = Koala::Facebook::API.new access_token
+    profile = @graph.get_object 'me'
+    user = where(fbid: profile['id']).first_or_initialize
+    user.first_name = profile['first_name']
+    user.last_name = "\#{profile['middle_name']} \#{profile['last_name']}".strip
+    user.email = profile['email']
+    user
+  end
+      USER_TOKEN_METHOD
+      run 'rails g model User first_name last_name email fbid'
+      inject_into_file "app/models/user.rb", user_token_method, :before => "end"
+      copy_file 'facebook/users_controller.rb', 'app/controllers/users_controller.rb'
     end
 
     def run_migrations
