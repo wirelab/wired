@@ -1,18 +1,33 @@
 #!/usr/bin/env ruby
-#
+
+generator_type = ''
+
 if ARGV.any? 
-  if ARGV[0].length < 3 || ARGV[0].length > 20
-    puts "Name needs to be between 3 and 20 characters. (#{ARGV[0]} is #{ARGV[0].length})"
-    exit
+  ARGV.each_with_index do |argument, index|
+    if argument == '--generator'
+      generator_type = ARGV[index+1]
+      ARGV.delete '--generator'
+      ARGV.delete generator_type
+    end
   end
 end
 
 require File.expand_path(File.join('..', 'lib', 'wired', 'generators', 'app_generator'), File.dirname(__FILE__))
+require File.expand_path(File.join('..', 'lib', 'wired', 'generators', 'facebook_generator'), File.dirname(__FILE__))
 require File.expand_path(File.join('..', 'lib', 'wired', 'actions'), File.dirname(__FILE__))
-require File.expand_path(File.join('..', 'lib', 'wired', 'app_builder'), File.dirname(__FILE__))
+require File.expand_path(File.join('..', 'lib', 'wired', 'builders', 'app_builder'), File.dirname(__FILE__))
+require File.expand_path(File.join('..', 'lib', 'wired', 'builders', 'facebook_builder'), File.dirname(__FILE__))
 
 templates_root = File.expand_path(File.join("..", "templates"), File.dirname(__FILE__))
-Wired::AppGenerator.source_root templates_root
-Wired::AppGenerator.source_paths << Rails::Generators::AppGenerator.source_root << templates_root
 
-Wired::AppGenerator.start
+case generator_type
+when 'facebook'
+  generator = Wired::FacebookGenerator
+else
+  generator = Wired::AppGenerator
+end
+
+generator.source_root templates_root
+generator.source_paths << Rails::Generators::AppGenerator.source_root << templates_root
+
+generator.start
