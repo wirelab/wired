@@ -1,6 +1,6 @@
 module Wired
   class FacebookBuilder < AppBuilder
-    def update_readme_for_facebook 
+    def update_readme
       append_file "README.md", "* FB_APP_ID\n* FB_PAGE_NAME"
       facebook_readme =<<-FACEBOOK
 # Facebook Apps
@@ -15,7 +15,7 @@ module Wired
       inject_into_file "README.md", facebook_readme, :before => "# Variables\n"
     end
 
-    def add_facebook_routes
+    def add_routes
       facebook_routes =<<-ROUTES
   root :to => 'tab#home'
   post '/' => 'tab#home'
@@ -25,22 +25,21 @@ module Wired
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
 
-    def add_facebook_controllers
+    def add_controllers
       copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
-      copy_file 'facebook/export_controller.rb', 'app/controllers/export_controller.rb'
     end
     
-    def add_facebook_stylesheets
+    def add_stylesheets
       say 'Copy stylesheets'
       copy_file 'facebook/reset.css.scss', 'app/assets/stylesheets/resets.css.scss'
       copy_file 'facebook/_variables.css.scss', 'app/assets/stylesheets/_variables.css.scss'
     end
 
-    def add_facebook_channel_file
+    def add_channel_file
       copy_file 'facebook/channel.html', 'public/channel.html'
     end
 
-    def create_facebook_views
+    def create_views
       empty_directory 'app/views/tab'
       home_page =<<-HOME
 Home pagina, show fangate: <%= @show_fangate %>
@@ -94,8 +93,21 @@ Home pagina, show fangate: <%= @show_fangate %>
       inject_into_file 'app/assets/javascripts/application.js', "//= require cookie_fix\n", :before => '//= require_tree .'
     end
 
-    def generate_user_model
-      run 'rails g model User name:string email:string fbid:string'
+    def generate_user
+      user_token_method =<<-USER_TOKEN_METHOD
+  def self.create_or_update_by_access_token(access_token)
+    @graph = Koala::Facebook::API.new access_token
+    profile = @graph.get_object 'me'
+    user = where(fbid: profile['id']).first_or_initialize
+    user.first_name = profile['first_name']
+    user.last_name = "\#{profile['middle_name']} \#{profile['last_name']}".strip
+    user.email = profile['email']
+    user
+  end
+      USER_TOKEN_METHOD
+      run 'rails g model User first_name last_name email fbid'
+      inject_into_file "app/models/user.rb", user_token_method, :before => "end"
+      copy_file 'facebook/users_controller.rb', 'app/controllers/users_controller.rb'
     end
 
     def run_migrations
@@ -105,6 +117,10 @@ Home pagina, show fangate: <%= @show_fangate %>
     def powder_setup
       super
       copy_file 'facebook/env', '.env'
+    end
+
+    def create_initializers 
+      copy_file 'facebook/default_headers.rb', 'config/initializers/default_headers.rb'
     end
   end
 end
