@@ -125,7 +125,7 @@ Home pagina, show fangate: <%= @show_fangate %>
     end
 
     def create_initializers 
-      copy_file 'facebook/default_headers.rb', 'config/initializers/default_headers.rb'
+      #do nothing
     end
   end
 end
