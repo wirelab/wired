@@ -9,7 +9,7 @@ class TabController < ApplicationController
       @show_fangate = !liked?
     else
       @show_fangate = false
-      redirect_to "http://www.facebook.com/#{ENV['FB_PAGE_NAME']}/app_#{ENV['FB_APP_ID']}" unless is_mobile_view?
+      redirect_to "http://www.facebook.com/#{ENV['FB_PAGE_NAME']}/app_#{ENV['FB_APP_ID']}" unless is_mobile_request?
     end
   end
 

@@ -51,6 +51,7 @@ Home pagina, show fangate: <%= @show_fangate %>
       copy_file 'facebook/sessions_controller.rb', 'app/controllers/sessions_controller.rb'
       copy_file 'facebook/cookie.html.erb', 'app/views/sessions/cookie.html.erb'
       facebook_cookie_fix =<<-COOKIE_FIX
+  helper_method :allow_iframe_requests
   helper_method :current_user
   before_filter :cookie_fix
   before_filter :add_global_javascript_variables  
@@ -76,6 +77,10 @@ Home pagina, show fangate: <%= @show_fangate %>
 
   def cookie_fix
     cookies[:cookie_fix] = "cookie" #third party cookie fix
+  end
+
+  def allow_iframe_requests
+    response.headers.delete 'X-Frame-Options'
   end
 
   def add_global_javascript_variables
@@ -120,7 +125,7 @@ Home pagina, show fangate: <%= @show_fangate %>
     end
 
     def create_initializers 
-      copy_file 'facebook/default_headers.rb', 'config/initializers/default_headers.rb'
+      #do nothing
     end
   end
 end
