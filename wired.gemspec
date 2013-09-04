@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = 'The Wirelab application generator'
   s.authors     = ['Wirelab Creative']
   s.email       = 'bart@wirelab.nl'
-  s.homepage    = 'https://github.com/Wirelab/wired'
+  s.homepage    = 'https://github.com/wirelab/wired'
   s.files = `git ls-files`.split("\n").
     reject { |file| file =~ /^\./ }.
     reject { |file| file =~ /^(rdoc|pkg)/ }
