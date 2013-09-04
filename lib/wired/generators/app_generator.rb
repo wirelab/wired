@@ -16,8 +16,10 @@ module Wired
 
     def app_name_clean
       clean = app_name.parameterize
+      clean = clean.gsub '_', '-'
       clean = "wl_#{clean}" if clean.length < 3
       clean = clean[0..19] if clean.length > 20
+      clean
     end
 
     def wired_customization
