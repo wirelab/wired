@@ -32,7 +32,7 @@ module Wired
         after: /source 'https:\/\/rubygems.org'/
     end
 
-    def setup_database_config 
+    def setup_database_config
       template 'database.yml.erb', 'config/database.yml', :force => true
     end
 
@@ -106,17 +106,17 @@ module Wired
         'spec/support/mixins',
         'spec/support/shared_examples'
       ].each do |dir|
-       empty_directory_with_keep_file dir 
+       empty_directory_with_keep_file dir
       end
     end
 
-    def setup_git 
+    def setup_git
       run 'git init'
       run "git add ."
       run "git commit -m 'initial commit'"
       run "git checkout -b develop"
     end
-    
+
     def deploy_github
       github_result = run "hub create -p wirelab/#{app_name_clean}"
       if github_result
@@ -138,7 +138,7 @@ module Wired
       %w(staging acceptance production).each do |env|
         heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-#{env}"
         heroku_result = run "heroku create #{heroku_name} --remote=#{env} --region eu"
-        
+
         if heroku_result
           puts "Heroku app #{heroku_name} created."
         else

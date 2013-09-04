@@ -2,7 +2,7 @@
 
 generator_type = ''
 
-if ARGV.any? 
+if ARGV.any?
   ARGV.each_with_index do |argument, index|
     if argument == '--generator'
       generator_type = ARGV[index+1]
