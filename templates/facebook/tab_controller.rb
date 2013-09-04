@@ -2,7 +2,7 @@ class TabController < ApplicationController
   include Mobylette::RespondToMobileRequests
   protect_from_forgery except: [:home]
 
-  def home 
+  def home
     @liked = false
     if params[:signed_request]
       set_fbid_session_if_authenticated_before_with_facebook
@@ -14,7 +14,7 @@ class TabController < ApplicationController
   end
 
   private
-  def liked? 
+  def liked?
     if params[:signed_request]
       encoded_request = params[:signed_request]
       json_request = decode_data(encoded_request)
@@ -30,7 +30,7 @@ class TabController < ApplicationController
       encoded_request = params[:signed_request]
       json_request = decode_data(encoded_request)
       signed_request = JSON.parse(json_request)
-      
+
       session[:fbid] = signed_request['user_id']
     end
   end
