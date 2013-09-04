@@ -5,8 +5,8 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'wired'
-  s.version     = Wired::VERSION 
-  s.date        = Date.today.strftime('%Y-%m-%d') 
+  s.version     = Wired::VERSION
+  s.date        = Date.today.strftime('%Y-%m-%d')
   s.summary     = 'Wirelab Generator'
   s.description = 'The Wirelab application generator'
   s.authors     = ['Wirelab Creative']
