@@ -28,7 +28,7 @@ module Wired
     def add_controllers
       copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
     end
-    
+
     def add_stylesheets
       say 'Copy stylesheets'
       copy_file 'facebook/reset.css.scss', 'app/assets/stylesheets/resets.css.scss'
@@ -54,7 +54,7 @@ Home pagina, show fangate: <%= @show_fangate %>
   helper_method :allow_iframe_requests
   helper_method :current_user
   before_filter :cookie_fix
-  before_filter :add_global_javascript_variables  
+  before_filter :add_global_javascript_variables
   before_filter :set_origin
   before_filter :set_p3p
 
@@ -63,10 +63,10 @@ Home pagina, show fangate: <%= @show_fangate %>
   end
 
   private
-  def set_p3p  
-    headers['P3P'] = 'CP="ALL DSP COR CURa ADMa DEVa OUR IND COM NAV"'  
-  end 
-  
+  def set_p3p
+    headers['P3P'] = 'CP="ALL DSP COR CURa ADMa DEVa OUR IND COM NAV"'
+  end
+
   def set_origin
     response.headers["Access-Control-Allow-Origin: facebook.com"]
   end
@@ -124,7 +124,7 @@ Home pagina, show fangate: <%= @show_fangate %>
       copy_file 'facebook/env', '.env'
     end
 
-    def create_initializers 
+    def create_initializers
       #do nothing
     end
   end

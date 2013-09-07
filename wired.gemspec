@@ -5,13 +5,13 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'wired'
-  s.version     = Wired::VERSION 
-  s.date        = Date.today.strftime('%Y-%m-%d') 
+  s.version     = Wired::VERSION
+  s.date        = Date.today.strftime('%Y-%m-%d')
   s.summary     = 'Wirelab Generator'
   s.description = 'The Wirelab application generator'
   s.authors     = ['Wirelab Creative']
   s.email       = 'bart@wirelab.nl'
-  s.homepage    = 'https://github.com/Wirelab/wired'
+  s.homepage    = 'https://github.com/wirelab/wired'
   s.files = `git ls-files`.split("\n").
     reject { |file| file =~ /^\./ }.
     reject { |file| file =~ /^(rdoc|pkg)/ }
@@ -25,5 +25,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '4.0.0'
   s.add_dependency 'bundler', '>= 1.1'
-  s.add_dependency 'hub', '~> 1.10.5'
+  s.add_dependency 'httparty', '~> 0.11.0'
+  s.add_dependency 'highline', '~> 1.6.19'
 end
