@@ -31,6 +31,7 @@ module Wired
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
+      invoke :add_postgres_drop_override
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -65,6 +66,7 @@ module Wired
       say 'Setting up database'
       build :setup_database_config
       build :create_database
+      build :add_postgres_drop_override
     end
 
     def configure_app

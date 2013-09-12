@@ -40,6 +40,10 @@ module Wired
       bundle_command 'exec rake db:create'
     end
 
+    def add_postgres_drop_override
+      copy_file 'database.rake', 'lib/tasks/database.rake'
+    end
+
     def create_partials_directory
       empty_directory 'app/views/application'
     end
