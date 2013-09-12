@@ -19,6 +19,7 @@ module Wired
       super
       say "* Create Facebook apps on https://developers.facebook.com"
       say "* Update FB_APP_ID env variables locally, on Heroku and in the readme"
+      say "* Add app to wiredev (http://www.facebook.com/dialog/pagetab?app_id=FB_APP_ID&next=http%3A%2F%2Ffacebook.com)"
     end
 
     protected
