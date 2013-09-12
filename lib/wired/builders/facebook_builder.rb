@@ -51,16 +51,12 @@ Home pagina, show fangate: <%= @show_fangate %>
       copy_file 'facebook/sessions_controller.rb', 'app/controllers/sessions_controller.rb'
       copy_file 'facebook/cookie.html.erb', 'app/views/sessions/cookie.html.erb'
       facebook_cookie_fix =<<-COOKIE_FIX
-  helper_method :allow_iframe_requests
+  before_action :allow_iframe_requests
   helper_method :current_user
-  before_filter :cookie_fix
-  before_filter :add_global_javascript_variables
-  before_filter :set_origin
-  before_filter :set_p3p
-
-  def cookie
-    # third party cookie fix
-  end
+  before_action :cookie_fix
+  before_action :add_global_javascript_variables
+  before_action :set_origin
+  before_action :set_p3p
 
   private
   def set_p3p
