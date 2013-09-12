@@ -67,12 +67,26 @@ module Wired
       inject_into_class 'config/application.rb', 'Application', config
     end
 
-    def set_asset_sync
+    def set_asset_host
       config = <<-RUBY
   config.action_controller.asset_host = ENV["ASSET_HOST"]
       RUBY
-      inject_into_class 'config/application.rb', 'Application', config
       inject_into_file 'config/environments/production.rb', config, :after => "config.action_controller.asset_host = \"http://assets.example.com\"\n"
+    end
+
+    def set_action_mailer_config
+      config = <<-RUBY
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.default_url_options = { host: '#{app_powder_name}.dev' }
+  config.action_mailer.asset_host = 'http://#{app_powder_name}.dev'
+      RUBY
+      inject_into_file 'config/environments/development.rb', config, before: "end\n"
+
+      config = <<-RUBY
+  config.action_mailer.default_url_options = { host: ENV["MAILER_HOST"] }
+  config.action_mailer.asset_host = ENV["ASSET_HOST"]
+      RUBY
+      inject_into_file 'config/environments/production.rb', config, before: "end\n"
     end
 
     def customize_error_pages
