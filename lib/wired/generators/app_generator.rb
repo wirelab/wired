@@ -37,6 +37,7 @@ module Wired
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
+      invoke :bundle_gems
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -57,13 +58,17 @@ module Wired
     def customize_gemfile
       build :replace_gemfile
       build :set_ruby_to_version_being_used
-      bundle_command 'install --binstubs=bin/stubs'
+    end
+
+    def bundle_gems
+      bundle_command 'install'
     end
 
     def create_wired_views
       say 'Creating views'
       build :create_partials_directory
       build :create_shared_flashes
+      build :create_shared_analytics
       build :create_application_layout
     end
 

@@ -22,6 +22,11 @@ module Wired
       say "* Add app to wiredev (http://www.facebook.com/dialog/pagetab?app_id=FB_APP_ID&next=http%3A%2F%2Ffacebook.com)"
     end
 
+    def customize_gemfile
+      super
+      build :add_gems
+    end
+
     protected
 
     def get_builder_class

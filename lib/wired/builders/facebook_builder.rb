@@ -17,16 +17,17 @@ module Wired
 
     def add_routes
       facebook_routes =<<-ROUTES
-  root :to => 'tab#home'
-  post '/' => 'tab#home'
+  root :to => 'facebook#tab'
+  post '/' => 'facebook#tab'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
+  post 'user' => 'users#create', as: 'user'
       ROUTES
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
 
     def add_controllers
-      copy_file 'facebook/tab_controller.rb', 'app/controllers/tab_controller.rb'
+      copy_file 'facebook/facebook_controller.rb', 'app/controllers/facebook_controller.rb'
     end
 
     def add_stylesheets
@@ -40,23 +41,29 @@ module Wired
     end
 
     def create_views
-      empty_directory 'app/views/tab'
+      empty_directory 'app/views/facebook'
       home_page =<<-HOME
 Home pagina, show fangate: <%= @show_fangate %>
       HOME
-      File.open("app/views/tab/home.html.erb", 'w') { |file| file.write(home_page) }
+      File.open("app/views/facebook/tab.html.erb", 'w') { |file| file.write(home_page) }
     end
 
     def add_cookie_fix
       copy_file 'facebook/sessions_controller.rb', 'app/controllers/sessions_controller.rb'
       copy_file 'facebook/cookie.html.erb', 'app/views/sessions/cookie.html.erb'
       facebook_cookie_fix =<<-COOKIE_FIX
+  include Mobylette::RespondToMobileRequests
+
   before_action :allow_iframe_requests
   helper_method :current_user
   before_action :cookie_fix
   before_action :add_global_javascript_variables
   before_action :set_origin
   before_action :set_p3p
+
+  mobylette_config do |config|
+    config[:skip_user_agents] = [:ipad]
+  end
 
   private
   def set_p3p
@@ -83,6 +90,11 @@ Home pagina, show fangate: <%= @show_fangate %>
     Gon.global.facebook = { 'app_id' => ENV["FB_APP_ID"] }
     Gon.global.current_user = current_user.fbid if current_user.present?
   end
+
+  def iframe_redirect_to(path)
+    render layout: false, inline: "<html><head>\\n<script type=\\"text/javascript\\">\\nwindow.top.location.href = '\#{path}';\\n</script>\\n<noscript>\\n<meta http-equiv=\\"refresh\\" content=\\"0;url=\#{path}\\" />\\n<meta http-equiv=\\"window-target\" content=\\"_top\\" />\\n</noscript>\\n</head></html>\\n"
+  end
+
       COOKIE_FIX
       inject_into_file "app/controllers/application_controller.rb", facebook_cookie_fix, :before => "end"
       copy_file 'facebook/cookie_fix.js.coffee', 'app/assets/javascripts/cookie_fix.js.coffee'
@@ -122,6 +134,20 @@ Home pagina, show fangate: <%= @show_fangate %>
 
     def create_initializers
       #do nothing
+    end
+
+    def add_gems
+      gems =<<-GEMS
+    gem 'facebook-signed-request'
+      GEMS
+      inject_into_file "Gemfile", gems, :before => "group :development, :test do"
+
+      config = <<-RUBY
+    Facebook::SignedRequest.secret = ENV['FB_APP_SECRET']
+      RUBY
+      inject_into_class 'config/application.rb', 'Application', config
+
+
     end
   end
 end
