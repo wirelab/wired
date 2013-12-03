@@ -125,6 +125,7 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
 
     def run_migrations
       bundle_command 'exec rake db:migrate'
+      bundle_command 'exec rake db:test:prepare'
     end
 
     def powder_setup

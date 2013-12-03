@@ -133,6 +133,13 @@ module Wired
       end
     end
 
+    def test_configuration_files
+      copy_file 'spec/spec_helper.rb', 'spec/spec_helper.rb'
+      copy_file 'spec/simplecov', '.simplecov'
+      copy_file 'spec/travis.yml', 'travis.yml'
+      copy_file 'spec/rspec', '.rspec'
+    end
+
     def setup_git
       run 'git init'
       run "git add ."

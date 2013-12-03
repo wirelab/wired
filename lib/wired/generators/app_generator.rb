@@ -32,6 +32,7 @@ module Wired
       invoke :remove_files_we_dont_need
       invoke :customize_gemfile
       invoke :create_wired_views
+      invoke :setup_test
       invoke :setup_database
       invoke :configure_app
       invoke :customize_error_pages
@@ -98,6 +99,11 @@ module Wired
 
     def remove_routes_comment_lines
       build :remove_routes_comment_lines
+    end
+
+    def setup_test
+      say 'Setting up test environment'
+      build :test_configuration_files
     end
 
     def setup_git

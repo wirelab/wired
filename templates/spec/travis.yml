@@ -1,0 +1,19 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.0.0
+notifications:
+  email: false
+  irc:
+    channels:
+      - "chat.freenode.net#wirelab"
+    on_success: change
+    on_failure: always
+    template:
+      - "%{repository} (%{branch}): %{author} - %{message}"
+script: "bundle exec rake db:create db:test:load spec"
+env:
+  global:
+  - RAILS_ENV=test
+  - AUTH_USER=u
+  - AUTH_PASS=p
