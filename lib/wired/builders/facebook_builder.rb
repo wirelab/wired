@@ -43,7 +43,7 @@ module Wired
     def create_views
       empty_directory 'app/views/facebook'
       home_page =<<-HOME
-Home pagina, show fangate: <%= @show_fangate %>
+Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-login rel="no-follow">Login</a>
       HOME
       File.open("app/views/facebook/tab.html.erb", 'w') { |file| file.write(home_page) }
     end
