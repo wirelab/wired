@@ -92,7 +92,7 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
   end
 
   def iframe_redirect_to(path)
-    render layout: false, inline: "<html><head>\\n<script type=\\"text/javascript\\">\\nwindow.top.location.href = '\#{path}';\\n</script>\\n<noscript>\\n<meta http-equiv=\\"refresh\\" content=\\"0;url=\#{path}\\" />\\n<meta http-equiv=\\"window-target\" content=\\"_top\\" />\\n</noscript>\\n</head></html>\\n"
+    render layout: false, inline: "<html><head>\\n<script type=\\"text/javascript\\">\\nwindow.top.location.href = '\#{path}';\\n</script>\\n<noscript>\\n<meta http-equiv=\\"refresh\\" content=\\"0;url=\#{path}\\" />\\n<meta http-equiv=\\"window-target\\" content=\\"_top\\" />\\n</noscript>\\n</head></html>\\n"
   end
 
       COOKIE_FIX
