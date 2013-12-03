@@ -75,7 +75,7 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
   end
 
   def current_user
-    @current_user ||= User.find_by_fbid session[:fbid]
+    @current_user ||= User.find_by fbid: session[:fbid]
   end
 
   def cookie_fix
