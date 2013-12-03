@@ -30,5 +30,19 @@ gem 'simple_form'
 gem 'flutie'
 gem 'gon'
 
-#Use .env instead of .powenv for powder.
-gem 'dotenv-rails', :groups => [:development, :test]
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'dotenv-rails'
+end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'timecop'
+  gem 'selenium-webdriver'
+  gem 'capybara'
+end
+
+gem 'unf'

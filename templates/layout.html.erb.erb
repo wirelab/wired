@@ -12,5 +12,20 @@
   <div id="fb-root"></div>
   <%%= render 'flashes' -%>
   <%%= yield %>
+  <script>
+    (function(d) {
+      var id, js, ref;
+      js = void 0;
+      id = "facebook-jssdk";
+      ref = d.getElementsByTagName("script")[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement("script");
+      js.id = id;
+      js.async = true;
+      js.src = "//connect.facebook.net/nl_NL/all.js";
+      return ref.parentNode.insertBefore(js, ref);
+    })(document);
+  </script>
+  <%%= render partial: "analytics" if Rails.env.production? %>
 </body>
 </html>

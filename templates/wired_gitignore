@@ -1,3 +1,5 @@
 .env
 .powenv
 public/system
+public/uploads
+coverage

@@ -40,6 +40,10 @@ module Wired
       bundle_command 'exec rake db:create'
     end
 
+    def add_postgres_drop_override
+      copy_file 'database.rake', 'lib/tasks/database.rake'
+    end
+
     def create_partials_directory
       empty_directory 'app/views/application'
     end
@@ -47,6 +51,11 @@ module Wired
     def create_shared_flashes
       copy_file '_flashes.html.erb',
         'app/views/application/_flashes.html.erb'
+    end
+
+    def create_shared_analytics
+      copy_file '_analytics.html.erb',
+        'app/views/application/_analytics.html.erb'
     end
 
     def create_application_layout
@@ -63,12 +72,26 @@ module Wired
       inject_into_class 'config/application.rb', 'Application', config
     end
 
-    def set_asset_sync
+    def set_asset_host
       config = <<-RUBY
   config.action_controller.asset_host = ENV["ASSET_HOST"]
       RUBY
-      inject_into_class 'config/application.rb', 'Application', config
       inject_into_file 'config/environments/production.rb', config, :after => "config.action_controller.asset_host = \"http://assets.example.com\"\n"
+    end
+
+    def set_action_mailer_config
+      config = <<-RUBY
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.default_url_options = { host: '#{app_powder_name}.dev' }
+  config.action_mailer.asset_host = 'http://#{app_powder_name}.dev'
+      RUBY
+      inject_into_file 'config/environments/development.rb', config, before: "end\n"
+
+      config = <<-RUBY
+  config.action_mailer.default_url_options = { host: ENV["MAILER_HOST"] }
+  config.action_mailer.asset_host = ENV["ASSET_HOST"]
+      RUBY
+      inject_into_file 'config/environments/production.rb', config, before: "end\n"
     end
 
     def customize_error_pages
@@ -108,6 +131,13 @@ module Wired
       ].each do |dir|
        empty_directory_with_keep_file dir
       end
+    end
+
+    def test_configuration_files
+      copy_file 'spec/spec_helper.rb', 'spec/spec_helper.rb'
+      copy_file 'spec/simplecov', '.simplecov'
+      copy_file 'spec/travis.yml', 'travis.yml'
+      copy_file 'spec/rspec', '.rspec'
     end
 
     def setup_git

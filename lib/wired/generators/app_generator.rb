@@ -17,8 +17,14 @@ module Wired
     def app_name_clean
       clean = app_name.parameterize
       clean = clean.gsub '_', '-'
-      clean = "wl_#{clean}" if clean.length < 3
+      clean = "wl-#{clean}" if clean.length < 3
       clean = clean[0..19] if clean.length > 20
+      clean
+    end
+
+    def app_powder_name
+      clean = app_name.parameterize
+      clean = clean.gsub '_', '-'
       clean
     end
 
@@ -26,11 +32,13 @@ module Wired
       invoke :remove_files_we_dont_need
       invoke :customize_gemfile
       invoke :create_wired_views
+      invoke :setup_test
       invoke :setup_database
       invoke :configure_app
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
+      invoke :bundle_gems
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -51,13 +59,17 @@ module Wired
     def customize_gemfile
       build :replace_gemfile
       build :set_ruby_to_version_being_used
-      bundle_command 'install --binstubs=bin/stubs'
+    end
+
+    def bundle_gems
+      bundle_command 'install'
     end
 
     def create_wired_views
       say 'Creating views'
       build :create_partials_directory
       build :create_shared_flashes
+      build :create_shared_analytics
       build :create_application_layout
     end
 
@@ -65,12 +77,14 @@ module Wired
       say 'Setting up database'
       build :setup_database_config
       build :create_database
+      build :add_postgres_drop_override
     end
 
     def configure_app
       say 'Configuring app'
       build :configure_time_zone
-      build :set_asset_sync
+      build :set_asset_host
+      build :set_action_mailer_config
       build :add_email_validator
     end
 
@@ -85,6 +99,11 @@ module Wired
 
     def remove_routes_comment_lines
       build :remove_routes_comment_lines
+    end
+
+    def setup_test
+      say 'Setting up test environment'
+      build :test_configuration_files
     end
 
     def setup_git

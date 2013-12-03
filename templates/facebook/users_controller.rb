@@ -4,11 +4,9 @@ class UsersController < ApplicationController
   def create
     @user = User.create_or_update_by_access_token user_params[:access_token]
 
-    #todo catch koala error if access_token invalid
-    @user.entry = Entry.new if @user.entry.nil?
     if @user.save
-      session[:id] = @user.id
-      render json: {redirect: edit_vote_path(@user.entry)}, status: :ok
+      session[:fbid] = @user.fbid
+      render json: {user: @user, redirect: root_url}, status: :ok
     else
       render json: {}, status: :unprocessable_entity
     end
