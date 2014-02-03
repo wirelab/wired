@@ -21,7 +21,7 @@ module Wired
   post '/' => 'facebook#tab'
 
   get 'cookie' => 'sessions#cookie', as: 'cookie'
-  post 'user' => 'users#create', as: 'user'
+  resources :users, only: [:create]
       ROUTES
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
@@ -139,7 +139,8 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
 
     def add_gems
       gems =<<-GEMS
-    gem 'facebook-signed-request'
+gem 'facebook-signed-request'
+gem 'koala'
       GEMS
       inject_into_file "Gemfile", gems, :before => "group :development, :test do"
 
