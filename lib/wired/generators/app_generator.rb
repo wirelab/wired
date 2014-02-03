@@ -47,6 +47,7 @@ module Wired
 
     def application_setup
       build :powder_setup
+      build :setup_robots_txt
     end
 
     def remove_files_we_dont_need
@@ -90,6 +91,12 @@ module Wired
 
     def copy_miscellaneous_files
       build :copy_miscellaneous_files
+    end
+
+    def setup_robots_txt
+      build :create_robots_txt
+      build :remove_public_robots
+      build :add_robots_routes
     end
 
     def customize_error_pages

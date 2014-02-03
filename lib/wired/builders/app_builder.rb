@@ -64,6 +64,24 @@ module Wired
         :force => true
     end
 
+    def remove_public_robots
+      remove_file 'public/robots.txt'
+    end
+
+    def create_robots_txt
+      say 'Copying robots.txt'
+      copy_file 'robots/allow.txt.erb', 'app/views/robots/allow.txt.erb'
+      copy_file 'robots/disallow.txt.erb', 'app/views/robots/disallow.txt.erb'
+      copy_file 'robots/robots_controller.rb', 'app/controllers/robots_controller.rb'
+    end
+
+    def add_robots_routes
+      robots_routes =<<-ROUTES
+  get 'robots.txt' => 'robots#index'
+      ROUTES
+      inject_into_file "config/routes.rb", robots_routes, :before => "end"
+    end
+
     def configure_time_zone
       config = <<-RUBY
     config.time_zone = 'Amsterdam'
@@ -181,6 +199,9 @@ module Wired
           %w(papertrail pgbackups newrelic memcachier).each do |addon|
             run "heroku addons:add #{addon} --remote=#{env}"
           end
+          run "heroku config:add DISALLOW_SEARCH=false --remote=#{env}"
+        else
+          run "heroku config:add DISALLOW_SEARCH=true --remote=#{env}"
         end
       end
     end
