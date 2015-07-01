@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README.md LICENSE]
 
-  s.add_dependency 'rails', '4.0.0'
-  s.add_dependency 'bundler', '>= 1.1'
+  s.add_dependency 'rails', '~> 4.2.0'
+  s.add_dependency 'bundler', '>= 1.7'
   s.add_dependency 'httparty', '~> 0.11.0'
   s.add_dependency 'highline', '~> 1.6.19'
 end
