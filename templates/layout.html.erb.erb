@@ -26,6 +26,6 @@
       return ref.parentNode.insertBefore(js, ref);
     })(document);
   </script>
-  <%%= render partial: "analytics" if Rails.env.production? %>
+  <%%= render partial: "analytics" if ENV['GA_CODE'] %>
 </body>
 </html>

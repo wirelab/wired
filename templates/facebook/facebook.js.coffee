@@ -6,18 +6,6 @@ window.fbAsyncInit = ->
     xfbml      : true
     cookie: true
 
-  # track facebook events with analytics
-  FB.Event.subscribe "message.send", (href) ->
-    _gaq.push(['_trackEvent', 'facebook', 'send', href]) if _gaq?
-    _gaq.push(['_trackSocial', 'facebook', 'send', href]) if _gaq?
-
-  FB.Event.subscribe "edge.create", (href, widget) ->
-    _gaq.push(['_trackEvent', 'facebook', 'like', href]) if _gaq?
-    _gaq.push(['_trackSocial', 'facebook', 'like', href]) if _gaq?
-
-  FB.Event.subscribe "edge.remove", (href, widget) ->
-    _gaq.push(['_trackEvent', 'facebook', 'unlike', href]) if _gaq?
-    _gaq.push(['_trackSocial', 'facebook', 'unlike', href]) if _gaq?
 
 $ ->
   # Share button
@@ -30,8 +18,8 @@ $ ->
 
     FB.ui obj, (resp) ->
       if resp
-        _gaq.push(['_trackEvent', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if _gaq?
-        _gaq.push(['_trackSocial', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if _gaq?
+        ga 'send', 'event', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if ga?
+        ga 'send', 'social', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if ga?
 
   # Login button
   # Usage: <a href="javascript: " rel="no-follow" data-fb-login>login</a>
