@@ -33,12 +33,12 @@ module Wired
       invoke :customize_gemfile
       invoke :create_wired_views
       invoke :setup_test
+      invoke :bundle_gems
       invoke :setup_database
       invoke :configure_app
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
-      invoke :bundle_gems
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro

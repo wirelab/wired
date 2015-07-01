@@ -139,7 +139,6 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
 
     def add_gems
       gems =<<-GEMS
-gem 'facebook-signed-request'
 gem 'koala'
       GEMS
       inject_into_file "Gemfile", gems, :before => "group :development, :test do"
