@@ -32,7 +32,6 @@ end
 gem 'asset_sync'
 gem 'mobylette'
 gem 'simple_form'
-gem 'gon'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.3'

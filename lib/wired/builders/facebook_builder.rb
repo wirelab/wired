@@ -92,11 +92,6 @@ Home pagina, show fangate: <%= @show_fangate %>, <a href="javascript: " data-fb-
     response.headers.delete 'X-Frame-Options'
   end
 
-  def add_global_javascript_variables
-    Gon.global.facebook = { 'app_id' => ENV["FB_APP_ID"] }
-    Gon.global.current_user = current_user.fbid if current_user.present?
-  end
-
   def iframe_redirect_to(path)
     render layout: false, inline: "<html><head>\\n<script type=\\"text/javascript\\">\\nwindow.top.location.href = '\#{path}';\\n</script>\\n<noscript>\\n<meta http-equiv=\\"refresh\\" content=\\"0;url=\#{path}\\" />\\n<meta http-equiv=\\"window-target\\" content=\\"_top\\" />\\n</noscript>\\n</head></html>\\n"
   end
