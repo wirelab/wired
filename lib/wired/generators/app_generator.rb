@@ -56,7 +56,7 @@ module Wired
       build :remove_public_robots
       build :add_robots_routes
 
-      build :setup_stylesheets
+      build :add_stylesheets
     end
 
     def remove_files_we_dont_need
