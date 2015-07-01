@@ -153,6 +153,7 @@ module Wired
 
     def test_configuration_files
       copy_file 'spec/spec_helper.rb', 'spec/spec_helper.rb'
+      copy_file 'spec/rails_helper.rb', 'spec/rails_helper.rb'
       copy_file 'spec/simplecov', '.simplecov'
       copy_file 'spec/travis.yml', 'travis.yml'
       copy_file 'spec/rspec', '.rspec'
