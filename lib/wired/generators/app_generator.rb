@@ -10,8 +10,9 @@ module Wired
       desc: 'Adds the creation of a Github repository'
 
     def finish_template
+      # Generate a normale rails app. After that AppBase invokes finish_template
       invoke :wired_customization
-      super
+      super # invokes leftover
     end
 
     def app_name_clean
@@ -39,6 +40,9 @@ module Wired
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
+    end
+
+    def leftover
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -47,7 +51,12 @@ module Wired
 
     def application_setup
       build :powder_setup
-      build :setup_robots_txt
+
+      build :create_robots_txt
+      build :remove_public_robots
+      build :add_robots_routes
+
+      build :setup_stylesheets
     end
 
     def remove_files_we_dont_need
@@ -95,9 +104,7 @@ module Wired
     end
 
     def setup_robots_txt
-      build :create_robots_txt
-      build :remove_public_robots
-      build :add_robots_routes
+
     end
 
     def customize_error_pages
@@ -133,11 +140,12 @@ module Wired
     end
 
     def todo
-      say "\n ------TODO------"
+      # say "\n ------TODO------"
     end
 
-    def run_bundle
+    def bundle_install?
       # Let's not: We'll bundle manually at the right spot
+      false
     end
 
     protected
