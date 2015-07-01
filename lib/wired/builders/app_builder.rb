@@ -40,6 +40,11 @@ module Wired
       bundle_command 'exec rake db:create'
     end
 
+    def configure_server
+      copy_file 'puma.rb', 'config/puma.rb'
+      copy_file 'Procfile', 'Procfile'
+    end
+
     def add_postgres_drop_override
       copy_file 'database.rake', 'lib/tasks/database.rake'
     end

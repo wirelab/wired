@@ -87,6 +87,7 @@ module Wired
       build :set_asset_host
       build :set_action_mailer_config
       build :add_email_validator
+      build :configure_server
     end
 
     def copy_miscellaneous_files
