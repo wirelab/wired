@@ -26,6 +26,12 @@ module Wired
       inject_into_file "config/routes.rb", facebook_routes, :before => "end"
     end
 
+    def create_application_layout
+      template 'facebook/layout.html.erb.erb',
+        'app/views/layouts/application.html.erb',
+        :force => true
+    end
+
     def add_controllers
       copy_file 'facebook/facebook_controller.rb', 'app/controllers/facebook_controller.rb'
     end
