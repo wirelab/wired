@@ -36,12 +36,6 @@ module Wired
       copy_file 'facebook/facebook_controller.rb', 'app/controllers/facebook_controller.rb'
     end
 
-    def add_stylesheets
-      say 'Copy stylesheets'
-      copy_file 'facebook/reset.css.scss', 'app/assets/stylesheets/resets.css.scss'
-      copy_file 'facebook/_variables.css.scss', 'app/assets/stylesheets/_variables.css.scss'
-    end
-
     def add_channel_file
       copy_file 'facebook/channel.html', 'public/channel.html'
     end

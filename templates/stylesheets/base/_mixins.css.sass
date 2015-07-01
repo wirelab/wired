@@ -1,0 +1,44 @@
+=retina
+  @media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)
+    @content
+
+=respond-to($device: false, $width: false, $height: false)
+  @if $device == false and $height == false
+    @media (max-width: $width)
+      @content
+  @if $device == false and $width == false
+    @media (max-height: $height)
+      @content
+  @if $device == ipad
+    @media (width: 1024px) and (max-height: 692px)
+      @content
+  @if $device == tablet
+    @media (max-width: 979px)
+      @content
+  @else if ($device == mobile)
+    @media (max-width: 767px)
+      @content
+
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+=svg-bg($name, $value)
+  background: image-url("#{$name}.png") $value
+  background: none, image-url("#{$name}.svg") $value
+
+=inline-svg-bg($name, $value)
+  background: inline-image("#{$name}.png") $value
+  background: none, inline-image("#{$name}.svg") $value
+
+=animation($value)
+  -webkit-animation: #{$value}
+  -moz-animation: #{$value}
+  -ms-animation: #{$value}
+  animation: #{$value}

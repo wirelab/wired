@@ -37,7 +37,8 @@ module Wired
     end
 
     def create_database
-      bundle_command 'exec rake db:create'
+      bundle_command 'exec rake db:create db:migrate RAILS_ENV=development'
+      bundle_command 'exec rake db:create db:migrate RAILS_ENV=test'
     end
 
     def configure_server
@@ -67,6 +68,12 @@ module Wired
       template 'layout.html.erb.erb',
         'app/views/layouts/application.html.erb',
         :force => true
+    end
+
+    def add_stylesheets
+      say 'Copy stylesheets'
+      empty_directory "app/assets/stylesheets"
+      directory "stylesheets", "app/assets/stylesheets", recursive: true
     end
 
     def remove_public_robots
@@ -167,8 +174,8 @@ module Wired
 
     def setup_git
       run 'git init'
-      run "git add ."
-      run "git commit -m 'initial commit'"
+      run "git add -A"
+      run "git commit -am 'initial commit'"
       run "git checkout -b develop"
     end
 

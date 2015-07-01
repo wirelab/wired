@@ -6,7 +6,6 @@ module Wired
       build :add_routes
       build :add_channel_file
       build :add_controllers
-      build :add_stylesheets
       build :create_views
       build :add_cookie_fix
       build :add_javascripts_to_manifest

@@ -1,0 +1,117 @@
+a.button, input[type="submit"], input[type="reset"], input[type="button"], button
+  height: 40px
+  font-size: 16px
+  line-height: 40px
+  text-decoration: none
+  color: $white
+  background: $alttextcolor
+  +border-radius(20px)
+  border: none
+  padding: 0 30px
+  font-family: $altbasefont
+  display: inline-block
+  text-align: center
+  +transition(all, .3s)
+  +box-shadow(inset 0 -3px 3px rgba($black, .4))
+  -webkit-appearance: none
+  &:hover
+    background: $basecolor
+    color: $white
+    text-decoration: none
+  &.left
+    float: left
+  &.right
+    float: right
+  &.alt
+    background: $errorcolor
+    &:hover
+      background: $basecolor
+
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"]
+  width: 100%
+  height: 50px
+  line-height: 50px
+  font-size: 18px
+  background: $white
+  color: $textcolor
+  border: none
+  margin: 0 0 20px
+  padding: 0 10px
+  font-family: $basefont
+  box-sizing: border-box
+  +border-radius(8px)
+  +box-shadow(inset 0 0 0 1px $gray)
+  -webkit-appearance: none
+
+textarea
+  width: 100%
+  height: 150px
+  line-height: 25px
+  font-size: 18px
+  background: $white
+  color: $textcolor
+  border: none
+  margin: 0 0 20px
+  padding: 10px
+  font-family: $basefont
+  box-sizing: border-box
+  +border-radius(8px)
+  +box-shadow(inset 0 0 5px $gray)
+  resize: none
+  -webkit-appearance: none
+
+.field_with_errors
+  label
+    color: $errorcolor
+  input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"]
+    +box-shadow(inset 0 0 0 2px $errorcolor)
+
+::-webkit-input-placeholder
+  color: lighten($black, 50)
+\:-moz-placeholder
+  color: $black
+::-moz-placeholder
+  color: $black
+\:-ms-input-placeholder
+  color: lighten($black, 50)
+input::-webkit-input-placeholder, textarea:-moz-placeholder, textarea::-webkit-input-placeholder, input:-moz-placeholder
+  color: lighten($black, 50)
+
+input[type="checkbox"], input[type="radio"]
+  float: left
+  margin: 5px
+
+input[type="checkbox"] + label, input[type="radio"] + label
+  margin: 0 0 5px 5px
+  width: 230px
+
+input[type="checkbox"] + label span
+input[type="checkbox"]:checked + label span
+input[type="radio"] + label span
+input[type="radio"]:checked + label span
+
+select
+  width: 100%
+  margin: 0 0 20px 0
+
+label
+  color: $black
+  font-size: 18px
+  line-height: 24px
+  margin: 0 0 3px
+  display: block
+  font-family: $altbasefont
+  &.checkbox
+    font-family: $basefont
+    font-size: 14px
+    line-height: 22px
+    color: $textcolor
+    margin: 0 0 10px
+  a
+    text-decoration: underline
+
+span.error
+  color: $errorcolor
+  display: block
+  padding: 3px 0
+  margin: -15px 0 15px
