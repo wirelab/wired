@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 4.2.0'
   s.add_dependency 'bundler', '>= 1.7'
+  s.add_dependency 'powder'
   s.add_dependency 'httparty', '~> 0.11.0'
   s.add_dependency 'highline', '~> 1.6.19'
 end
