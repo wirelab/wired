@@ -3,11 +3,11 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
-    class_option 'skip-heroku', type: :boolean, default: false,
-      desc: 'Skips the creation of the Heroku apps'
+    class_option 'with-heroku', type: :boolean, default: false,
+      desc: 'Adds the creation of the Heroku apps'
 
-    class_option 'skip-github', type: :boolean, default: false,
-      desc: 'Skips the creation of a Github repository'
+    class_option 'with-github', type: :boolean, default: false,
+      desc: 'Adds the creation of a Github repository'
 
     def finish_template
       invoke :wired_customization
@@ -117,11 +117,11 @@ module Wired
       say 'Setting up git'
       build :gitignore_files
       build :setup_git
-      build :deploy_github unless options['skip-github']
+      build :deploy_github if options['with-github']
     end
 
     def create_heroku_apps
-      unless options['skip-heroku']
+      if options['with-heroku']
         say 'Creating Heroku apps'
         build :create_heroku_apps
       end
