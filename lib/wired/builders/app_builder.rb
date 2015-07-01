@@ -185,25 +185,28 @@ module Wired
     end
 
     def create_heroku_apps
-      %w(staging acceptance production).each do |env|
-        heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-#{env}"
-        heroku_result = run "heroku create #{heroku_name} --remote=#{env} --region eu"
+      %w(acceptance production).each do |env|
+        heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-acc"
+        heroku_result = run "heroku apss:create #{heroku_name} --o wirelab -r #{env} --region eu"
 
         if heroku_result
-          puts "Heroku app #{heroku_name} created."
+          puts "Heroku apps:create #{heroku_name} created."
         else
-          puts "Heroku app #{heroku_name} failed."
+          puts "Heroku apps:create #{heroku_name} failed."
           puts "Wired generation halted due to error."
           puts "You might want to remove the GitHub repo and previously created heroku apps and retry."
           exit
         end
+
+        %w(papertrail mandrill newrelic memcachier).each do |addon|
+          puts "heroku addons:create #{addon} --remote #{env}"
+        end
+
         if env == 'production'
-          %w(papertrail pgbackups newrelic memcachier).each do |addon|
-            run "heroku addons:add #{addon} --remote=#{env}"
-          end
-          run "heroku config:add DISALLOW_SEARCH=false --remote=#{env}"
+          run "heroku maintenance:on -r production"
+          run "heroku config:set DISALLOW_SEARCH=false -r #{env}"
         else
-          run "heroku config:add DISALLOW_SEARCH=true --remote=#{env}"
+          run "heroku config:set DISALLOW_SEARCH=true -r #{env}"
         end
       end
     end
