@@ -3,3 +3,6 @@
 public/system
 public/uploads
 coverage
+/log/*
+!/log/.keep
+/tmp
