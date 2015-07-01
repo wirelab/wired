@@ -110,6 +110,7 @@ module Wired
   config.action_mailer.asset_host = ENV["ASSET_HOST"]
       RUBY
       inject_into_file 'config/environments/production.rb', config, before: "end\n"
+      copy_file 'email_sanitizer.rb', 'lib/email_sanitizer.rb'
     end
 
     def customize_error_pages
