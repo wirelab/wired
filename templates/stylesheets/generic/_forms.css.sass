@@ -4,28 +4,22 @@ a.button, input[type="submit"], input[type="reset"], input[type="button"], butto
   line-height: 40px
   text-decoration: none
   color: $white
-  background: $alttextcolor
-  +border-radius(20px)
+  background: $basecolor
   border: none
   padding: 0 30px
   font-family: $altbasefont
   display: inline-block
   text-align: center
   +transition(all, .3s)
-  +box-shadow(inset 0 -3px 3px rgba($black, .4))
   -webkit-appearance: none
   &:hover
-    background: $basecolor
+    background: $altbasecolor
     color: $white
     text-decoration: none
   &.left
     float: left
   &.right
     float: right
-  &.alt
-    background: $errorcolor
-    &:hover
-      background: $basecolor
 
 input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"]
   width: 100%
@@ -39,7 +33,6 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
   padding: 0 10px
   font-family: $basefont
   box-sizing: border-box
-  +border-radius(8px)
   +box-shadow(inset 0 0 0 1px $gray)
   -webkit-appearance: none
 
@@ -55,8 +48,7 @@ textarea
   padding: 10px
   font-family: $basefont
   box-sizing: border-box
-  +border-radius(8px)
-  +box-shadow(inset 0 0 5px $gray)
+  +box-shadow(inset 0 0 0 1px $gray)
   resize: none
   -webkit-appearance: none
 
@@ -64,7 +56,7 @@ textarea
   label
     color: $errorcolor
   input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"]
-    +box-shadow(inset 0 0 0 2px $errorcolor)
+    +box-shadow(inset 0 0 0 1px $errorcolor)
 
 ::-webkit-input-placeholder
   color: lighten($black, 50)
@@ -101,12 +93,6 @@ label
   margin: 0 0 3px
   display: block
   font-family: $altbasefont
-  &.checkbox
-    font-family: $basefont
-    font-size: 14px
-    line-height: 22px
-    color: $textcolor
-    margin: 0 0 10px
   a
     text-decoration: underline
 

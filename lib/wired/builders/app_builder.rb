@@ -72,7 +72,7 @@ module Wired
 
     def add_stylesheets
       say 'Copy stylesheets'
-      empty_directory "app/assets/stylesheets"
+      remove_file "app/assets/stylesheets/application.css"
       directory "stylesheets", "app/assets/stylesheets", recursive: true
     end
 
