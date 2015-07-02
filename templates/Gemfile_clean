@@ -30,7 +30,6 @@ group :production do
 end
 
 gem 'asset_sync'
-gem 'mobylette'
 gem 'simple_form'
 
 group :development, :test do
