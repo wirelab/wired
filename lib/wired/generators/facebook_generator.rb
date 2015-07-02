@@ -9,8 +9,6 @@ module Wired
       build :create_views
       build :add_cookie_fix
       build :add_javascripts_to_manifest
-      build :generate_user
-      build :run_migrations
       build :create_initializers
     end
 
