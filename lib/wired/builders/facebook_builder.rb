@@ -58,7 +58,6 @@ Home pagina<a href="javascript: " data-fb-login rel="no-follow">Login</a>
   include Mobylette::RespondToMobileRequests
 
   before_action :allow_iframe_requests
-  helper_method :current_user
   before_action :cookie_fix
   before_action :set_origin
   before_action :set_p3p
