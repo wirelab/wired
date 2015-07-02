@@ -72,7 +72,9 @@ module Wired
     end
 
     def bundle_gems
+      say 'Bundling gems'
       bundle_command 'install'
+      bundle_command 'exec rails generate simple_form:install'
     end
 
     def create_wired_views
