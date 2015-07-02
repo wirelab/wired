@@ -1,0 +1,32 @@
+<html>
+<head>
+  <script type="text/javascript">
+    var facebookURL = "<%= @redirect_url %>";
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '<%= ENV["GA_CODE"] %>']);
+    _gaq.push(['_trackPageview','/facebook/campaign-tracking/']);
+
+    function trackGA() {
+      var isArray = _gaq instanceof Array;
+      if (!isArray) {
+        clearInterval(interval);
+        setTimeout("top.location.href = facebookURL", 200);
+      }
+    }
+    var interval = setInterval('trackGA()', 100);
+    setTimeout("top.location.href = facebookURL", 2000);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <style>
+    * {
+      text-indent: -9999px;
+    }
+  </style>
+</head>
+<body>U wordt binnen enkele tellen doorgestuurd naar: <%= @redirect_url %></body>
+</html>

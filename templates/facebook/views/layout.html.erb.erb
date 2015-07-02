@@ -12,7 +12,6 @@
   <meta property="og:url" content="<%%= root_url %>"/>
   <eta property="og:image" content=""/>
   <meta property="og:description" content=""/>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui"/>
   <%%= stylesheet_link_tag "application", media: "all" %>
   <%%= javascript_include_tag "application" %>
@@ -40,5 +39,6 @@
    }(document, 'script', 'facebook-jssdk'));
   </script>
   <%%= render partial: "analytics" if ENV['GA_CODE'] %>
+  <%%= yield :analytics %>
 </body>
 </html>
