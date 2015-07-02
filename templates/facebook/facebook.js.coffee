@@ -9,8 +9,8 @@ $ ->
 
     FB.ui obj, (resp) ->
       if resp
-        ga 'send', 'event', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if ga?
-        ga 'send', 'social', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname]) if ga?
+        ga('send', 'event', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname) if ga?
+        ga('send', 'social', 'facebook', 'feed', window.location.protocol + '//' + window.location.hostname) if ga?
 
   # Login button
   # Usage: <a href="javascript: " rel="no-follow" data-fb-login>login</a>
