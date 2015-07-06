@@ -199,7 +199,7 @@ module Wired
     def create_heroku_apps
       %w(acceptance production).each do |env|
         heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-acc"
-        heroku_result = run "heroku apss:create #{heroku_name} --o wirelab -r #{env} --region eu"
+        heroku_result = run "heroku apps:create #{heroku_name} --o wirelab -r #{env} --region eu"
 
         if heroku_result
           puts "Heroku apps:create #{heroku_name} created."
