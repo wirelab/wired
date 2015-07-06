@@ -3,15 +3,16 @@ require 'rails/generators/rails/app/app_generator'
 
 module Wired
   class AppGenerator < Rails::Generators::AppGenerator
-    class_option 'skip-heroku', type: :boolean, default: false,
-      desc: 'Skips the creation of the Heroku apps'
+    class_option 'with-heroku', type: :boolean, default: false,
+      desc: 'Adds the creation of the Heroku apps'
 
-    class_option 'skip-github', type: :boolean, default: false,
-      desc: 'Skips the creation of a Github repository'
+    class_option 'with-github', type: :boolean, default: false,
+      desc: 'Adds the creation of a Github repository'
 
     def finish_template
+      # Generate a normale rails app. After that AppBase invokes finish_template
       invoke :wired_customization
-      super
+      super # invokes leftover
     end
 
     def app_name_clean
@@ -33,12 +34,15 @@ module Wired
       invoke :customize_gemfile
       invoke :create_wired_views
       invoke :setup_test
+      invoke :bundle_gems
       invoke :setup_database
       invoke :configure_app
       invoke :customize_error_pages
       invoke :remove_routes_comment_lines
       invoke :application_setup
-      invoke :bundle_gems
+    end
+
+    def leftover
       invoke :setup_git
       invoke :create_heroku_apps
       invoke :outro
@@ -46,8 +50,16 @@ module Wired
     end
 
     def application_setup
-      build :powder_setup
-      build :setup_robots_txt
+      if run('which powder')
+        build :powder_setup
+      else
+        say 'Powder not found. Skip linking app.'
+      end
+      build :create_robots_txt
+      build :remove_public_robots
+      build :add_robots_routes
+
+      build :add_stylesheets
     end
 
     def remove_files_we_dont_need
@@ -63,7 +75,9 @@ module Wired
     end
 
     def bundle_gems
+      say 'Bundling gems'
       bundle_command 'install'
+      bundle_command 'exec rails generate simple_form:install'
     end
 
     def create_wired_views
@@ -87,6 +101,7 @@ module Wired
       build :set_asset_host
       build :set_action_mailer_config
       build :add_email_validator
+      build :configure_server
     end
 
     def copy_miscellaneous_files
@@ -94,9 +109,7 @@ module Wired
     end
 
     def setup_robots_txt
-      build :create_robots_txt
-      build :remove_public_robots
-      build :add_robots_routes
+
     end
 
     def customize_error_pages
@@ -117,11 +130,11 @@ module Wired
       say 'Setting up git'
       build :gitignore_files
       build :setup_git
-      build :deploy_github unless options['skip-github']
+      build :deploy_github if options['with-github']
     end
 
     def create_heroku_apps
-      unless options['skip-heroku']
+      if options['with-heroku']
         say 'Creating Heroku apps'
         build :create_heroku_apps
       end
@@ -132,11 +145,12 @@ module Wired
     end
 
     def todo
-      say "\n ------TODO------"
+      # say "\n ------TODO------"
     end
 
-    def run_bundle
+    def bundle_install?
       # Let's not: We'll bundle manually at the right spot
+      false
     end
 
     protected

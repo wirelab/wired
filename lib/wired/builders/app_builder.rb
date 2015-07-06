@@ -37,7 +37,13 @@ module Wired
     end
 
     def create_database
-      bundle_command 'exec rake db:create'
+      bundle_command 'exec rake db:create db:migrate RAILS_ENV=development'
+      bundle_command 'exec rake db:create db:migrate RAILS_ENV=test'
+    end
+
+    def configure_server
+      copy_file 'puma.rb', 'config/puma.rb'
+      copy_file 'Procfile', 'Procfile'
     end
 
     def add_postgres_drop_override
@@ -62,6 +68,12 @@ module Wired
       template 'layout.html.erb.erb',
         'app/views/layouts/application.html.erb',
         :force => true
+    end
+
+    def add_stylesheets
+      say 'Copy stylesheets'
+      remove_file "app/assets/stylesheets/application.css"
+      directory "stylesheets", "app/assets/stylesheets", recursive: true
     end
 
     def remove_public_robots
@@ -110,6 +122,7 @@ module Wired
   config.action_mailer.asset_host = ENV["ASSET_HOST"]
       RUBY
       inject_into_file 'config/environments/production.rb', config, before: "end\n"
+      copy_file 'email_sanitizer.rb', 'lib/email_sanitizer.rb'
     end
 
     def customize_error_pages
@@ -125,8 +138,8 @@ module Wired
 
     def remove_routes_comment_lines
       replace_in_file 'config/routes.rb',
-        /Application\.routes\.draw do.*end/m,
-        "Application.routes.draw do\nend"
+        /Rails\.application\.routes\.draw do.*end/m,
+        "Rails.application.routes.draw do\nend"
     end
 
     def gitignore_files
@@ -153,6 +166,7 @@ module Wired
 
     def test_configuration_files
       copy_file 'spec/spec_helper.rb', 'spec/spec_helper.rb'
+      copy_file 'spec/rails_helper.rb', 'spec/rails_helper.rb'
       copy_file 'spec/simplecov', '.simplecov'
       copy_file 'spec/travis.yml', 'travis.yml'
       copy_file 'spec/rspec', '.rspec'
@@ -160,8 +174,8 @@ module Wired
 
     def setup_git
       run 'git init'
-      run "git add ."
-      run "git commit -m 'initial commit'"
+      run "git add -A"
+      run "git commit -am 'initial commit'"
       run "git checkout -b develop"
     end
 
@@ -183,25 +197,28 @@ module Wired
     end
 
     def create_heroku_apps
-      %w(staging acceptance production).each do |env|
-        heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-#{env}"
-        heroku_result = run "heroku create #{heroku_name} --remote=#{env} --region eu"
+      %w(acceptance production).each do |env|
+        heroku_name = (env == "production") ? app_name_clean : "#{app_name_clean}-acc"
+        heroku_result = run "heroku apps:create #{heroku_name} --o wirelab -r #{env} --region eu"
 
         if heroku_result
-          puts "Heroku app #{heroku_name} created."
+          puts "Heroku apps:create #{heroku_name} created."
         else
-          puts "Heroku app #{heroku_name} failed."
+          puts "Heroku apps:create #{heroku_name} failed."
           puts "Wired generation halted due to error."
           puts "You might want to remove the GitHub repo and previously created heroku apps and retry."
           exit
         end
+
+        %w(papertrail mandrill newrelic memcachier).each do |addon|
+          puts "heroku addons:create #{addon} --remote #{env}"
+        end
+
         if env == 'production'
-          %w(papertrail pgbackups newrelic memcachier).each do |addon|
-            run "heroku addons:add #{addon} --remote=#{env}"
-          end
-          run "heroku config:add DISALLOW_SEARCH=false --remote=#{env}"
+          run "heroku maintenance:on -r production"
+          run "heroku config:set DISALLOW_SEARCH=false -r #{env}"
         else
-          run "heroku config:add DISALLOW_SEARCH=true --remote=#{env}"
+          run "heroku config:set DISALLOW_SEARCH=true -r #{env}"
         end
       end
     end

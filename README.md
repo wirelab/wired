@@ -20,7 +20,7 @@ Usage
 Params additional to the default rails generator params are:
 
 * --generator GENERATOR _uses the specified generator, can be: [facebook]_
-* --skip-heroku _Skips the creation of the Heroku apps_
-* --skip-github _Skips the creation of a Github repository_
+* --with-heroku _Adds the creation of the Heroku apps_
+* --with-github _Adds the creation of a Github repository_
 
 For a complete list of options check `wired --help`.

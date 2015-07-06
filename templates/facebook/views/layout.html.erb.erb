@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <title></title>
-  <meta name="description" content="" />
 
+  <meta name="description" content="" />
+  <meta property="fb:app_id" content="<%%= ENV['FB_APP_ID'] %>"/>
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content=""/>
   <meta property="og:title" content="" />
   <meta property="og:url" content="<%%= root_url %>"/>
-  <meta property="og:image" content=""/>
+  <eta property="og:image" content=""/>
   <meta property="og:description" content=""/>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui"/>
   <%%= stylesheet_link_tag "application", media: "all" %>
   <%%= javascript_include_tag "application" %>
@@ -21,6 +21,24 @@
   <div id="fb-root"></div>
   <%%= render 'flashes' -%>
   <%%= yield %>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : 'ENV["FB_APP_ID"]',
+      xfbml      : true,
+      version    : 'v2.3'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/nl_NL/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
   <%%= render partial: "analytics" if ENV['GA_CODE'] %>
+  <%%= yield :analytics %>
 </body>
 </html>
