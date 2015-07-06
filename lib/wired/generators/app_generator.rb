@@ -50,8 +50,11 @@ module Wired
     end
 
     def application_setup
-      build :powder_setup
-
+      if run('which powder')
+        build :powder_setup
+      else
+        say 'Powder not found. Skip linking app.'
+      end
       build :create_robots_txt
       build :remove_public_robots
       build :add_robots_routes

@@ -33,4 +33,24 @@ end
 generator.source_root templates_root
 generator.source_paths << Rails::Generators::AppGenerator.source_root << templates_root
 
+# Check dependencies
+unless system('command -v git')
+  say 'Git command not found. Please install git.'
+  exit
+end
+
+if ARGV.include? '--with-heroku'
+  unless system('command -v heroku')
+    say 'Heroku command is not available. Please install the heroku toolbelt before using with-heroku option.'
+    exit
+  end
+end
+
+if ARGV.include? '--with-github'
+  unless system('command -v hub')
+    say 'Hub command is not available. Please install hub before using with-github command.'
+    exit
+  end
+end
+
 generator.start
