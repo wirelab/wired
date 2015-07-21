@@ -211,7 +211,7 @@ module Wired
         end
 
         %w(papertrail mandrill newrelic memcachier).each do |addon|
-          puts "heroku addons:create #{addon} --remote #{env}"
+          run "heroku addons:create #{addon} --remote #{env}"
         end
 
         if env == 'production'
