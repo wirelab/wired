@@ -210,8 +210,8 @@ module Wired
           exit
         end
 
-        %w(papertrail mandrill newrelic memcachier).each do |addon|
-          run "heroku addons:create #{addon} --remote #{env}"
+        [["papertrail","choklad"], ["newrelic","wayne"], ["memcachier","dev"]].each do |service, plan|
+          run "heroku addons:create #{service}:#{plan} --remote #{env}"
         end
 
         if env == 'production'
