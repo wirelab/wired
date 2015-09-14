@@ -106,7 +106,7 @@ module Wired
       config = <<-RUBY
   config.action_controller.asset_host = ENV["ASSET_HOST"]
       RUBY
-      inject_into_file 'config/environments/production.rb', config, :after => "config.action_controller.asset_host = \"http://assets.example.com\"\n"
+      inject_into_file 'config/environments/production.rb', config, before: "end\n"
     end
 
     def set_action_mailer_config
@@ -210,8 +210,8 @@ module Wired
           exit
         end
 
-        %w(papertrail mandrill newrelic memcachier).each do |addon|
-          puts "heroku addons:create #{addon} --remote #{env}"
+        [["papertrail","choklad"], ["newrelic","wayne"], ["memcachier","dev"]].each do |service, plan|
+          run "heroku addons:create #{service}:#{plan} --remote #{env}"
         end
 
         if env == 'production'
